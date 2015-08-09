@@ -1,0 +1,22 @@
+extends ../layout
+
+block header
+
+block page-content
+    div.panel.panel-default
+        div.panel-heading
+            h2.panel-title
+                i.glyphicon.glyphicon-lock 
+                |  Authorize Access to #{client.name}
+        div.panel-body.text-center
+            h3 Hi #{user.email}
+            p  #{client.name} is requesting access to your account.
+            p Do you approve?
+            form(action=formAction, method="post")
+                input(name="transaction_id", type="hidden",value=transactionID)
+                button.btn.btn-primary.btn-block.btn-lg(type="submit", id="allow", name="allow", value="Allow") 
+                    i.glyphicon.glyphicon-ok-circle 
+                    |  Allow
+                button.btn.btn-default.btn-block.btn-xs(type="submit", id="cancel", name="cancel")
+                    i.glyphicon.glyphicon-ban-circle 
+                    |  Deny

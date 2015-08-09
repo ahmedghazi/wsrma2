@@ -1,0 +1,29 @@
+extends ../../node_modules/express-rapido/lib/views/jade/layout
+
+append javascripts
+    if rapidoSettings.socketIo !== false
+        script(src='/socket.io/socket.io.js')
+        script.
+            var socket = io();
+            socket.on('changeColor', function (data) {
+                $('body').css('color', data.color);
+            });
+prepend content
+    block navbar
+        nav.navbar.navbar-default.navbar-static-top
+            div.container-fluid
+                div.navbar-header
+                    a.navbar-brand(href="/") #{rapidoSettings.name}
+                if !user
+                    a.navbar-btn.btn.btn-primary.pull-right(href="/security/login") Login
+                else
+                    p.navbar-text.pull-right Welcome #{user.email}&nbsp;
+                        a.text-warning(href="/security/logout") Logout
+
+block content
+    div.container
+        block header
+            div.page-header
+                h1 #{title}
+
+        block page-content
