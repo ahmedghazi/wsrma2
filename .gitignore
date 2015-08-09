@@ -1,6 +1,5 @@
-/tmp
-.DS_Store
-nbproject
-node_modules
-data
+node_modules/
+data/
 *.log
+tmp/
+uploads/
