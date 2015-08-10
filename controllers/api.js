@@ -5,7 +5,7 @@ var ApiController = function(rapido) {
     var formidable = require('formidable');
     var path = require('path');
     var Ass = rapido.getModel('ass');
-//console.log(Ass)
+console.log(Ass)
     var postsPerPage = 10;
 
     // GET LAST ASSES
