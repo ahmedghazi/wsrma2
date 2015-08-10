@@ -64,7 +64,7 @@ var ApiController = function(rapido) {
         formF.parse(req, function(err, fields, files) {
             console.log(fields)
             console.log(files)
-            
+
             req.uploadFiles = files;
             req.fields = fields;
         });
@@ -86,7 +86,7 @@ var ApiController = function(rapido) {
                     res.end();
 
                 } else {
-                    var newPath = path.dirname(__dirname) + "/uploads/" + imageName;
+                    var newPath = path.dirname(__dirname) + "/public/uploads/" + imageName;
                      /// write file to uploads/fullsize folder
                     fs.writeFile(newPath, data, function (err) {
                         console.log("writeFile end, imageName : "+imageName);
