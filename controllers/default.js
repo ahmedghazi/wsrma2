@@ -12,7 +12,7 @@ var DefaultController = function (rapido) {
 
         //render the index.html.jade
         return res.render('index', {
-            title: 'Hello world',
+            title: 'WSRMA',
             count: count
         });
     });

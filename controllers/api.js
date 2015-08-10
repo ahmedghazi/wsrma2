@@ -5,7 +5,7 @@ var ApiController = function(rapido) {
     var formidable = require('formidable');
     var path = require('path');
     var Ass = rapido.getModel('ass');
-console.log(Ass)
+//console.log(Ass)
     var postsPerPage = 10;
 
     // GET LAST ASSES
@@ -62,6 +62,9 @@ console.log(Ass)
         //console.log(Ass)
         var formF = new formidable.IncomingForm({ uploadDir: path.dirname(__dirname) + '/tmp' });
         formF.parse(req, function(err, fields, files) {
+            console.log(fields)
+            console.log(files)
+            
             req.uploadFiles = files;
             req.fields = fields;
         });
@@ -72,7 +75,7 @@ console.log(Ass)
         });
 
         formF.on('end', function (fields, files) {
-            console.log("form end")
+
             fs.readFile(req.uploadFiles.image.path, function (err, data) {
                 var imageName = req.uploadFiles.image.name;
 
