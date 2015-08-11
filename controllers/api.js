@@ -128,10 +128,11 @@ var ApiController = function(rapido) {
               return;
             }
             console.log("done");
+            return res.json({'success':true, data:_data});
             // Do something with honroStudents
         });
 
-        return res.json({'success':true, ass:ass});
+        
     });
 
     function batchUpdate(arr, callback) {
@@ -152,7 +153,7 @@ var ApiController = function(rapido) {
             Ass.findOneAndUpdate(query, update, {}, function (err, ass, raw) {
                 if (!err) {
                     //return res.send(ass);
-                    console.log("update : "+ass);
+                    console.log("updated : "+ass._id);
                     done();
                     return;
                 } else {
