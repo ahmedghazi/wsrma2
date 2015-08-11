@@ -120,11 +120,14 @@ var ApiController = function(rapido) {
     this.router.post('/ub', function(req, res){
         console.log(req.body)
         console.log(req.params)
-        res.json({'success':true});
-        for (var i in req.body){
-            var d = req.body[i];
-            var id = d.id
+        var data = req.body;
+        
+        for (var i in data){
+            
+            var id = data.id
         }
+
+        res.json({'success':true});
     });
 
     // UPDATE ASS
