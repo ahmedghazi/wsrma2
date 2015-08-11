@@ -13,7 +13,7 @@ var DefaultController = function (rapido) {
 
         return Ass
                 .find()
-                .sort({date_created: 'asc'})
+                .sort({date_created: 'desc'})
                 //.limit(postsPerPage)
                 .exec(function(err, asses) {
                     if (err) {

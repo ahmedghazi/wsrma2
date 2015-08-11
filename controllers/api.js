@@ -14,7 +14,7 @@ var ApiController = function(rapido) {
         console.log("api")
         return Ass
                 .find()
-                .sort({date_created: 'asc'})
+                .sort({date_created: 'desc'})
                 .limit(postsPerPage)
                 .exec(function(err, asses) {
             if (err) {
@@ -36,7 +36,7 @@ var ApiController = function(rapido) {
         console.log(skip, typeof skip)
         return Ass
                 .find()
-                .sort({date_created: 'asc'})
+                .sort({date_created: 'desc'})
                 .limit(postsPerPage)
                 .skip(skip)
                 .exec(function(err, asses) {
