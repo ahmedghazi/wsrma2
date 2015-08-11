@@ -124,30 +124,24 @@ var ApiController = function(rapido) {
         for (var i in data){
             var id = data[i].id;
             var ratings = data[i].ratings
-            return Ass.findById(id, function (err, ass) {
-                if (err) {
-                    return next(err);
+            
+            var rates = 0;
+            for(var i=0; i<ratings.length; i++){
+                rates += parseInt(ratings[i]);
+            }
+            
+            var average = rates / ratings.length;
+
+            var query = { _id: id };
+            var update = {$set: {'ratings': ratings}, $set: {'average':average}};
+            Ass.findOneAndUpdate(query, update, {}, function (err, ass, raw) {
+                if (!err) {
+                    //return res.send(ass);
+                    console.log("update : "+id)
+                } else {
+                    console.log(err);
                 }
 
-                console.log(ratings)
-                ass.ratings = ratings;
-                var rates = 0;
-                for(var i=0; i<ass.ratings.length; i++){
-                    rates += parseInt(ass.ratings[i]);
-                }
-                
-                var average = rates / ass.ratings.length;
-                ass.average = Math.round(average);
-
-                ass.save(function (err) {
-                    if (!err) {
-                        return console.log("updated");
-                    } else {
-                        return console.log(err);
-                    }
-                });
-
-                //res.json(ass);
             });
         }
 
