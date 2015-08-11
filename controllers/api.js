@@ -127,7 +127,7 @@ var ApiController = function(rapido) {
               // Handle the error
               return;
             }
-            console.log("done")
+            console.log("done");
             // Do something with honroStudents
         });
 
@@ -138,7 +138,7 @@ var ApiController = function(rapido) {
 
         var iteratorFcn = function(data, done) {
             var ratings = data.ratings
-            console.log(i)
+            console.log("iteratorFcn : "+data.id)
             var rates = 0;
             for(var i=0; i<ratings.length; i++){
                 rates += parseInt(ratings[i]);
@@ -147,12 +147,12 @@ var ApiController = function(rapido) {
             var average = rates / ratings.length;
             if(isNaN(average))average = 5;
 
-            var query = { _id: arr.id };
+            var query = { _id: data.id };
             var update = {$set: {'ratings': ratings}, $set: {'average':average}};
             Ass.findOneAndUpdate(query, update, {}, function (err, ass, raw) {
                 if (!err) {
                     //return res.send(ass);
-                    console.log("update : "+ass._id);
+                    console.log("update : "+ass);
                     done();
                     return;
                 } else {
@@ -162,7 +162,7 @@ var ApiController = function(rapido) {
         };
 
         var doneIteratingFcn = function(err) {
-            callback(err, _data);
+            callback(err, []);
         };
 
         async.forEach(arr, iteratorFcn, doneIteratingFcn);
