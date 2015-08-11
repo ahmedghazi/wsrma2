@@ -63,7 +63,7 @@ var ApiController = function(rapido) {
         var formF = new formidable.IncomingForm({ uploadDir: path.dirname(__dirname) + '/tmp' });
         formF.parse(req, function(err, fields, files) {
             console.log(fields)
-            console.log(files)
+            //console.log(files)
 
             req.uploadFiles = files;
             req.fields = fields;
@@ -76,6 +76,8 @@ var ApiController = function(rapido) {
 
         formF.on('end', function (fields, files) {
             console.log(req.uploadFiles)
+console.log(req.uploadFiles.files)
+            console.log(req.uploadFiles.files.path)
             fs.readFile(req.uploadFiles.path, function (err, data) {
                 var imageName = req.uploadFiles.name;
 
