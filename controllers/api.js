@@ -123,7 +123,8 @@ var ApiController = function(rapido) {
         var data = req.body;
         
         for (var i in data){
-            var id = data.id;
+            console.log(data[i]);
+            var id = data[i].id;
             console.log(id);
         }
 
