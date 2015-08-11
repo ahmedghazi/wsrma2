@@ -33,12 +33,12 @@ var ApiController = function(rapido) {
         console.log(postsPerPage)
         
         //return res.send(req);
-
+        var skip = parseInt(req.params.page) * parseInt(postsPerPage);
         return Ass
                 .find()
                 .sort({date_created: 'asc'})
                 .limit(postsPerPage)
-                .skip(req.params.page * postsPerPage)
+                .skip(skip)
                 .exec(function(err, asses) {
             if (err) {
                 console.log(err);
