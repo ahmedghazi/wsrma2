@@ -118,13 +118,13 @@ var ApiController = function(rapido) {
     });
     
     this.router.post('/ub', function(req, res){
-        console.log(req.body)
+        //console.log(req.body)
         console.log(req.params)
         var data = req.body;
         
         for (var i in data){
-            
-            var id = data.id
+            var id = data.id;
+            console.log(id);
         }
 
         res.json({'success':true});
