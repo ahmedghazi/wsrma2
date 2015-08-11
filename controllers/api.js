@@ -147,7 +147,7 @@ var ApiController = function(rapido) {
                 });
 
                 res.json({'success':true});
-        }
+        });
     });
 
     // UPDATE ASS
