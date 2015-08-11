@@ -75,9 +75,9 @@ var ApiController = function(rapido) {
         });
 
         formF.on('end', function (fields, files) {
-
-            fs.readFile(req.uploadFiles.image.path, function (err, data) {
-                var imageName = req.uploadFiles.image.name;
+            console.log(req.uploadFiles)
+            fs.readFile(req.uploadFiles.path, function (err, data) {
+                var imageName = req.uploadFiles.name;
 
                 /// If there's an error
                 if(!imageName){
