@@ -146,8 +146,11 @@ var ApiController = function(rapido) {
                     }
                 });
 
-                res.json({'success':true});
-        });
+                //res.json(ass);
+            });
+        }
+
+        return res.json({'success':true, ass:ass});
     });
 
     // UPDATE ASS
