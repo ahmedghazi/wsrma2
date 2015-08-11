@@ -123,13 +123,14 @@ var ApiController = function(rapido) {
         
         for (var i in data){
             var id = data[i].id;
- 
+            var ratings = data[i].ratings
             return Ass.findById(id, function (err, ass) {
                 if (err) {
                     return next(err);
                 }
 
-                ass.ratings = data[i].ratings;
+                console.log(ratings)
+                ass.ratings = ratings;
                 var rates = 0;
                 for(var i=0; i<ass.ratings.length; i++){
                     rates += parseInt(ass.ratings[i]);
