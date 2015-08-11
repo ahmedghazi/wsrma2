@@ -121,6 +121,10 @@ var ApiController = function(rapido) {
         console.log(req.body)
         console.log(req.params)
         res.json({'success':true});
+        for (var i in req.body){
+            var d = req.body[i];
+            var id = d.id
+        }
     });
 
     // UPDATE ASS
