@@ -1,5 +1,10 @@
 extends layout
 
 block page-content
-    p count: 
-        span.label.label-default #{count}
+    section
+        each ass in asses
+            article.ass(id='#{ass._id}')
+            p
+                #{ass.date_created}
+            p
+                img(src='#{ass.img}')
