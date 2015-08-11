@@ -103,7 +103,7 @@ var ApiController = function(rapido) {
                         //console.log(a)
                         var ass = new Ass({
                             img: imageName,
-                            ratings:[req.fields.rate],
+                            //ratings:[req.fields.rate],
                             average: 5
                         });
 //console.log(ass)
@@ -153,6 +153,9 @@ var ApiController = function(rapido) {
             
             var average = rates / ratings.length;
             if(isNaN(average))average = 5;
+
+            console.log(ratings);
+            console.log(average);
 
             var query = { _id: data.id };
             var update = {$set: {'ratings': ratings}, $set: {'average':average}};

@@ -28,6 +28,27 @@ var DefaultController = function (rapido) {
         });
     });
 
+    this.router.get('/page/:id', function(req, res){
+        var skip = parseInt(req.params.id * postsPerPage);
+
+        return Ass
+                .find()
+                .sort({date_created: 'desc'})
+                .limit(postsPerPage)
+                .skip(skip)
+                .exec(function(err, asses) {
+            if (err) {
+                console.log(err);
+                return next(err);
+            }
+            
+            return res.render('index', {
+                title: 'WSRMA',
+                asses: asses
+            });
+        });
+    });
+
     return this;
 };
 
