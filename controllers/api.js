@@ -32,7 +32,7 @@ var ApiController = function(rapido) {
                 .find()
                 .sort({date_created: 'asc'})
                 .limit(postsPerPage)
-                .skip(req.params.page)
+                .skip(req.params.page * postsPerPage)
                 .exec(function(err, asses) {
             if (err) {
                 console.log(err);
