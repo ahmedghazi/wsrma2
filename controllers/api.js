@@ -76,10 +76,7 @@ var ApiController = function(rapido) {
 
         formF.on('end', function (fields, files) {
             //console.log(req.uploadFiles)
-console.log(req.uploadFiles)
-console.log(req.uploadFiles.file)
-console.log(req.uploadFiles.file.path)
-            //console.log(req.uploadFiles.files.path)
+
             fs.readFile(req.uploadFiles.file.path, function (err, data) {
                 var imageName = req.uploadFiles.file.name;
 
@@ -102,7 +99,7 @@ console.log(req.uploadFiles.file.path)
                             ratings:[req.fields.rate],
                             average: 5
                         });
-console.log(ass)
+//console.log(ass)
                         ass.save(function (err) {
                             if (!err) {
                                 return console.log("ass created");
@@ -112,7 +109,8 @@ console.log(ass)
                             }
                         });
 
-                        return res.json(ass);
+                        //return res.json(ass);
+                        return res.json({'success':true, ass:ass});
                     });
                 }
             });
