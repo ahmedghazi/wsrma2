@@ -163,6 +163,7 @@ var ApiController = function(rapido) {
                 if (!err) {
                     //return res.send(ass);
                     console.log("updated : "+ass._id);
+                    console.log("updated : "+ass.ratings);
                     done();
                     return;
                 } else {
