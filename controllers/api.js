@@ -124,7 +124,7 @@ var ApiController = function(rapido) {
         for (var i in data){
             var id = data[i].id;
             var ratings = data[i].ratings
-            
+            console.log(i)
             var rates = 0;
             for(var i=0; i<ratings.length; i++){
                 rates += parseInt(ratings[i]);
