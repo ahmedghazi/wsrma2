@@ -116,6 +116,12 @@ var ApiController = function(rapido) {
             });
         });
     });
+    
+    this.router.post('/ub', function(req, res){
+        console.log(req.body)
+        console.log(req.params)
+        res.json({'success':true});
+    });
 
     // UPDATE ASS
     this.router.post('/u/:id', function(req, res, next){
