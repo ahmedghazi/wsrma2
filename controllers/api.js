@@ -80,8 +80,8 @@ console.log(req.uploadFiles)
 console.log(req.uploadFiles.file)
 console.log(req.uploadFiles.file.path)
             //console.log(req.uploadFiles.files.path)
-            fs.readFile(files.file.path, function (err, data) {
-                var imageName = files.file.name;
+            fs.readFile(req.uploadFiles.file.path, function (err, data) {
+                var imageName = req.uploadFiles.file.name;
 
                 /// If there's an error
                 if(!imageName){
