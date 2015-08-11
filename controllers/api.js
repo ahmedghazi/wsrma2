@@ -4,6 +4,7 @@ var ApiController = function(rapido) {
     var fs = require('fs');
     var formidable = require('formidable');
     var path = require('path');
+    var async = require('async');
     var Ass = rapido.getModel('ass');
 //console.log(Ass)
     var postsPerPage = 5;
@@ -121,9 +122,22 @@ var ApiController = function(rapido) {
     this.router.post('/ub', function(req, res){
         var data = req.body;
         
-        for (var i in data){
-            var id = data[i].id;
-            var ratings = data[i].ratings
+        batchUpdate(data, function(err, _data) {
+            if(err) {
+              // Handle the error
+              return;
+            }
+            console.log("done")
+            // Do something with honroStudents
+        });
+
+        return res.json({'success':true, ass:ass});
+    });
+
+    function batchUpdate(arr, callback) {
+
+        var iteratorFcn = function(data, done) {
+            var ratings = data.ratings
             console.log(i)
             var rates = 0;
             for(var i=0; i<ratings.length; i++){
@@ -133,25 +147,26 @@ var ApiController = function(rapido) {
             var average = rates / ratings.length;
             if(isNaN(average))average = 5;
 
-            var query = { _id: id };
+            var query = { _id: arr.id };
             var update = {$set: {'ratings': ratings}, $set: {'average':average}};
             Ass.findOneAndUpdate(query, update, {}, function (err, ass, raw) {
                 if (!err) {
                     //return res.send(ass);
-                    console.log("update : "+id)
-                    console.log(i,data.length)
+                    console.log("update : "+ass._id);
+                    done();
+                    return;
                 } else {
                     console.log(err);
                 }
-
             });
+        };
 
-            if(i == data.length)console.log("end 1")
-            if(i == data.length-1)console.log("end 2")
-        }
+        var doneIteratingFcn = function(err) {
+            callback(err, _data);
+        };
 
-        return res.json({'success':true, ass:ass});
-    });
+        async.forEach(arr, iteratorFcn, doneIteratingFcn);
+    }
 
     // UPDATE ASS
     this.router.post('/u/:id', function(req, res, next){
