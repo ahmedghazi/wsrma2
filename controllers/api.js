@@ -6,7 +6,7 @@ var ApiController = function(rapido) {
     var path = require('path');
     var Ass = rapido.getModel('ass');
 //console.log(Ass)
-    var postsPerPage = 10;
+    var postsPerPage = 5;
 
     // GET LAST ASSES
     this.router.get('/', function(req, res){
@@ -14,7 +14,7 @@ var ApiController = function(rapido) {
         return Ass
                 .find()
                 .sort({date_created: 'asc'})
-                //.limit(postsPerPage)
+                .limit(postsPerPage)
                 .exec(function(err, asses) {
             if (err) {
                 console.log(err);
@@ -29,7 +29,7 @@ var ApiController = function(rapido) {
     this.router.get('page/:page', function(req, res){
         return Ass
                 .find()
-                .sort({date_created: 'desc'})
+                .sort({date_created: 'asc'})
                 .limit(postsPerPage)
                 .skip(req.params.page)
                 .exec(function(err, asses) {
@@ -117,18 +117,37 @@ var ApiController = function(rapido) {
         });
     });
     
+    // UPDATE BATCH
     this.router.post('/ub', function(req, res){
-        //console.log(req.body)
-        console.log(req.params)
         var data = req.body;
         
         for (var i in data){
-            console.log(data[i]);
             var id = data[i].id;
-            console.log(id);
-        }
+ 
+            return Ass.findById(id, function (err, ass) {
+                if (err) {
+                    return next(err);
+                }
 
-        res.json({'success':true});
+                ass.ratings = data[i].ratings;
+                var rates = 0;
+                for(var i=0; i<ass.ratings.length; i++){
+                    rates += parseInt(ass.ratings[i]);
+                }
+                
+                var average = rates / ass.ratings.length;
+                ass.average = Math.round(average);
+
+                ass.save(function (err) {
+                    if (!err) {
+                        return console.log("updated");
+                    } else {
+                        return console.log(err);
+                    }
+                });
+
+                res.json({'success':true});
+        }
     });
 
     // UPDATE ASS
