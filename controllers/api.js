@@ -27,7 +27,13 @@ var ApiController = function(rapido) {
     });
 
     // PAGINATION
-    this.router.get('page/:page', function(req, res){
+    this.router.get('/page/:id', function(req, res){
+        console.log(req.params)
+        console.log(req.body)
+        console.log(postsPerPage)
+        
+        //return res.send(req);
+
         return Ass
                 .find()
                 .sort({date_created: 'asc'})
