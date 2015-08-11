@@ -76,9 +76,9 @@ var ApiController = function(rapido) {
 
         formF.on('end', function (fields, files) {
             //console.log(req.uploadFiles)
-console.log(files)
-console.log(files.file)
-console.log(files.file.path)
+console.log(req.uploadFiles)
+console.log(req.uploadFiles.file)
+console.log(req.uploadFiles.file.path)
             //console.log(req.uploadFiles.files.path)
             fs.readFile(files.file.path, function (err, data) {
                 var imageName = files.file.name;
