@@ -11,26 +11,20 @@ var DefaultController = function (rapido) {
         count++;
         session.count = count;
 
-        //render the index.html.jade
-        return res.render('index', {
-            title: 'WSRMA',
-            count: count
-        });
-
         return Ass
                 .find()
                 .sort({date_created: 'asc'})
                 //.limit(postsPerPage)
                 .exec(function(err, asses) {
-            if (err) {
-                console.log(err);
-                return next(err);
-            }
-            
-            return res.render('index', {
-                title: 'WSRMA',
-                asses: asses
-            });
+                    if (err) {
+                        console.log(err);
+                        return next(err);
+                    }
+                    
+                    return res.render('index', {
+                        title: 'WSRMA',
+                        asses: asses
+                    });
         });
     });
 

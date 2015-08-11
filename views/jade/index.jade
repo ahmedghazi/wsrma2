@@ -4,7 +4,7 @@ block page-content
     section
         each ass in asses
             article.ass(id='#{ass._id}')
-            p
-                #{ass.date_created}
-            p
-                img(src='#{ass.img}')
+                p.align_left #{ass.date_created}
+                p.align_right #{ass.average}
+                p
+                    img(src='uploads/#{ass.img}')
