@@ -29,11 +29,10 @@ var ApiController = function(rapido) {
     // PAGINATION
     this.router.get('/page/:id', function(req, res){
         console.log(req.params)
-        console.log(req.body)
         console.log(postsPerPage)
         
         //return res.send(req);
-        var skip = parseInt(req.params.page) * parseInt(postsPerPage);
+        var skip = parseInt(req.params.id * postsPerPage);
         console.log(skip, typeof skip)
         return Ass
                 .find()
