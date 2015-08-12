@@ -154,14 +154,14 @@ var ApiController = function(rapido) {
             var average = rates / ratings.length;
             if(isNaN(average))average = 5;
 
-            console.log("ratings : "+ratings);
-            console.log("average : "+average);
+            console.log("ratings : ",ratings);
+            console.log("average : ",average);
 
             var query = { _id: data.id };
             var update = {$set: {'ratings': ratings}, $set: {'average':average}};
             
-            console.log("query : "+query)
-            console.log("update : "+update)
+            console.log("query : ",query)
+            console.log("update : ",update)
             Ass.findOneAndUpdate(query, update, {}, function (err, ass, raw) {
                 if (!err) {
                     console.log(ass)
