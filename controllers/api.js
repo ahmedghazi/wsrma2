@@ -131,9 +131,9 @@ var ApiController = function(rapido) {
                         //console.log(a)
                         var ass = new Ass({
                             img: imageName,
-                            ratings:[],
+                            ratings: [],
                             average: 5,
-                            reports: ""
+                            reports: []
                         });
 //console.log(ass)
                         ass.save(function (err) {
@@ -175,6 +175,7 @@ var ApiController = function(rapido) {
         var iteratorFcn = function(data, done) {
             var ratings = data.ratings
             //console.log("iteratorFcn : "+data.id)
+            console.log(data)
             var rates = 0;
 
             for(var i=0; i<ratings.length; i++){
