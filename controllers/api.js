@@ -169,24 +169,12 @@ var ApiController = function(rapido) {
         
     });
 
-function cleanArray(actual){
-  var newArray = new Array();
-  for(var i = 0; i<actual.length; i++){
-      if (actual[i]){
-        newArray.push(actual[i]);
-    }
-  }
-  return newArray;
-}
-
     function batchUpdate(arr, callback) {
 
         var iteratorFcn = function(data, done) {
             var ratings = data.ratings
-            console.log("iteratorFcn : "+data.id)
+            //console.log("iteratorFcn : "+data.id)
             var rates = 0;
-            //cleanArray(ratings);
-
 
             for(var i=0; i<ratings.length; i++){
                 if(ratings[i] != null)rates += parseInt(ratings[i]);
@@ -195,22 +183,13 @@ function cleanArray(actual){
             var average = Math.floor(rates / ratings.length);
             if(isNaN(average))average = 5;
 
-            console.log("ratings : ",ratings);
-            //console.log("average : ",average);
-
             var query = { _id: data.id };
-            var update = {$set: {
-                'ratings': ratings,
-                'average': average
-                }
-            };
+            var update = { $set: {'ratings': ratings, 'average': average} };
             
-            //console.log("query : ",query)
-            console.log("update : ",update)
             Ass.findOneAndUpdate(query, update, {}, function (err, ass, raw) {
                 if (!err) {
                     console.log("updated")
-                    console.log(ass)
+                    //console.log(ass)
                     //console.log("updated : "+ass._id);
                     //console.log("updated : "+ass.ratings);
                     done();
