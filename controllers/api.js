@@ -11,7 +11,6 @@ var ApiController = function(rapido) {
 
     // GET LAST ASSES
     this.router.get('/', function(req, res){
-        console.log("api")
         return Ass
                 .find()
                 .sort({date_created: 'desc'})
@@ -28,12 +27,8 @@ var ApiController = function(rapido) {
 
     // PAGINATION
     this.router.get('/page/:id', function(req, res){
-        console.log(req.params)
-        console.log(postsPerPage)
-        
-        //return res.send(req);
         var skip = parseInt(req.params.id * postsPerPage);
-        console.log(skip, typeof skip)
+        
         return Ass
                 .find()
                 .sort({date_created: 'desc'})
@@ -155,18 +150,19 @@ var ApiController = function(rapido) {
             if(isNaN(average))average = 5;
 
             console.log("ratings : ",ratings);
-            console.log("average : ",average);
+            //console.log("average : ",average);
 
             var query = { _id: data.id };
-            var update = {$set: {'ratings': ratings}, $set: {'average':average}};
+            var update = {$set: {'ratings': []}, $set: {'average':average}};
             
-            console.log("query : ",query)
+            //console.log("query : ",query)
             console.log("update : ",update)
             Ass.findOneAndUpdate(query, update, {}, function (err, ass, raw) {
                 if (!err) {
+                    console.log("updated")
                     console.log(ass)
-                    console.log("updated : "+ass._id);
-                    console.log("updated : "+ass.ratings);
+                    //console.log("updated : "+ass._id);
+                    //console.log("updated : "+ass.ratings);
                     done();
                     return;
                 } else {
@@ -188,7 +184,7 @@ var ApiController = function(rapido) {
             if (err) {
                 return next(err);
             }
-            console.log(ass)
+            //console.log(ass)
             ass.ratings.push(req.body.rate);
 
             var rates = 0;
