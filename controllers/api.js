@@ -79,6 +79,20 @@ var ApiController = function(rapido) {
         });
     });
 
+    // GET TOP ASSES PAGINATION
+    this.router.get('/users', function(req, res){
+        return User
+                .find()
+                .exec(function(err, asses) {
+            if (err) {
+                console.log(err);
+                return next(err);
+            }
+            
+            return res.json(asses);
+        });
+    });
+
     // GET FORM UPLOAD
     this.router.get('/upload', function(req, res){
         return res.render('upload', {
@@ -96,12 +110,9 @@ var ApiController = function(rapido) {
     this.router.post('/c', function(req, res){
         console.log("form create")
         //console.log(Ass)
-        console.log(req.query.uuid)
+        
         var formF = new formidable.IncomingForm({ uploadDir: path.dirname(__dirname) + '/tmp' });
         formF.parse(req, function(err, fields, files) {
-            console.log(fields)
-            console.log(files)
-
             req.uploadFiles = files;
             req.fields = fields;
         });
@@ -129,9 +140,9 @@ var ApiController = function(rapido) {
                     fs.writeFile(newPath, data, function (err) {
                         console.log("writeFile end, imageName : "+imageName);
 
-                        var email = req.body.uuid+"@rma.io";
+                        var email = req.query.uuid+"@rma.io";
                         var user = new User({
-                            name: req.body.uuid, 
+                            name: req.query.uuid, 
                             email: email
                         });
 
