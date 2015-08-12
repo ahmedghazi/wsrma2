@@ -44,6 +44,21 @@ var ApiController = function(rapido) {
         });
     });
     
+    // GET TOP ASSES
+    this.router.get('/top', function(req, res){
+        return Ass
+                .find()
+                .sort({average: 'desc'})
+                .limit(postsPerPage)
+                .exec(function(err, asses) {
+            if (err) {
+                console.log(err);
+                return next(err);
+            }
+            
+            return res.json(asses);
+        });
+    });
 
     // GET FORM UPLOAD
     this.router.get('/upload', function(req, res){
@@ -168,7 +183,7 @@ function cleanArray(actual){
             var query = { _id: data.id };
             var update = {$set: {
                 'ratings': ratings,
-                'average':average
+                'average': average
                 }
             };
             
