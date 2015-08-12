@@ -136,14 +136,27 @@ var ApiController = function(rapido) {
         
     });
 
+    Array.prototype.clean = function(deleteValue) {
+  for (var i = 0; i < this.length; i++) {
+    if (this[i] == deleteValue) {         
+      this.splice(i, 1);
+      i--;
+    }
+  }
+  return this;
+};
+
     function batchUpdate(arr, callback) {
 
         var iteratorFcn = function(data, done) {
             var ratings = data.ratings
             console.log("iteratorFcn : "+data.id)
             var rates = 0;
+            ratings.clean(null);
+            ratings.clean(undefined);
+
             for(var i=0; i<ratings.length; i++){
-                rates += parseInt(ratings[i]);
+                if(ratings[i] != null)rates += parseInt(ratings[i]);
             }
             
             var average = rates / ratings.length;
