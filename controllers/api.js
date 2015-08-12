@@ -60,6 +60,24 @@ var ApiController = function(rapido) {
         });
     });
 
+    // GET TOP ASSES PAGINATION
+    this.router.get('/top/page/:id', function(req, res){
+        var skip = parseInt(req.params.id * postsPerPage);
+        return Ass
+                .find()
+                .sort({average: 'desc'})
+                .limit(postsPerPage)
+                .skip(skip)
+                .exec(function(err, asses) {
+            if (err) {
+                console.log(err);
+                return next(err);
+            }
+            
+            return res.json(asses);
+        });
+    });
+
     // GET FORM UPLOAD
     this.router.get('/upload', function(req, res){
         return res.render('upload', {
