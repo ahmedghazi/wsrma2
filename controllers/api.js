@@ -136,15 +136,15 @@ var ApiController = function(rapido) {
         
     });
 
-    Array.prototype.clean = function(deleteValue) {
-  for (var i = 0; i < this.length; i++) {
-    if (this[i] == deleteValue) {         
-      this.splice(i, 1);
-      i--;
+function cleanArray(actual){
+  var newArray = new Array();
+  for(var i = 0; i<actual.length; i++){
+      if (actual[i]){
+        newArray.push(actual[i]);
     }
   }
-  return this;
-};
+  return newArray;
+}
 
     function batchUpdate(arr, callback) {
 
@@ -152,8 +152,8 @@ var ApiController = function(rapido) {
             var ratings = data.ratings
             console.log("iteratorFcn : "+data.id)
             var rates = 0;
-            ratings.clean(null);
-            ratings.clean(undefined);
+            cleanArray(ratings);
+            
 
             for(var i=0; i<ratings.length; i++){
                 if(ratings[i] != null)rates += parseInt(ratings[i]);
