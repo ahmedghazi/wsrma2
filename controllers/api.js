@@ -153,7 +153,11 @@ var ApiController = function(rapido) {
             //console.log("average : ",average);
 
             var query = { _id: data.id };
-            var update = {$set: {'ratings': []}, $set: {'average':average}};
+            var update = {$set: {
+                'ratings': []},
+                'average':average
+                }
+            };
             
             //console.log("query : ",query)
             console.log("update : ",update)
