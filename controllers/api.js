@@ -6,6 +6,7 @@ var ApiController = function(rapido) {
     var path = require('path');
     var async = require('async');
     var Ass = rapido.getModel('ass');
+    var User = rapido.getModel('user');
 //console.log(Ass)
     var postsPerPage = 5;
 
@@ -127,26 +128,45 @@ console.log(fields)
                     fs.writeFile(newPath, data, function (err) {
                         console.log("writeFile end, imageName : "+imageName);
 
-                        //var a = rapido.getModel('ass')
-                        //console.log(a)
-                        var ass = new Ass({
-                            img: imageName,
-                            ratings: [],
-                            average: 5,
-                            reports: []
-                        });
-//console.log(ass)
-                        ass.save(function (err) {
-                            if (!err) {
-                                return console.log("ass created");
-                                //return res.json(ass);
-                            } else {
-                                return console.log(err);
-                            }
+                        var email = req.body.uuid+"@rma.io";
+                        var user = new User({
+                            name: req.body.uuid, 
+                            email: email
                         });
 
-                        //return res.json(ass);
-                        return res.json({'success':true, ass:ass});
+                        user.save(function (err) {
+                            var user_exists = false;
+                            if (err) {
+                                if (err.code != 11000) {
+                                    return next(err);
+                                }else{
+                                    user_exists = true;
+                                }
+                            }
+
+                            req.session.user = user;
+
+                            var ass = new Ass({
+                                img: imageName,
+                                ratings: [],
+                                average: 5,
+                                reports: [],
+                                user: user._id
+                            });
+    //console.log(ass)
+                            ass.save(function (err) {
+                                if (!err) {
+                                    return console.log("ass created");
+                                    //return res.json(ass);
+                                } else {
+                                    return console.log(err);
+                                }
+                            });
+
+                            //return res.json(ass);
+                            return res.json({'success':true, ass:ass});
+
+                        });
                     });
                 }
             });
