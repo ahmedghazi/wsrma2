@@ -131,8 +131,9 @@ var ApiController = function(rapido) {
                         //console.log(a)
                         var ass = new Ass({
                             img: imageName,
-                            //ratings:[req.fields.rate],
-                            average: 5
+                            ratings:[],
+                            average: 5,
+                            reports: ""
                         });
 //console.log(ass)
                         ass.save(function (err) {
