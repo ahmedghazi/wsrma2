@@ -152,14 +152,14 @@ function cleanArray(actual){
             var ratings = data.ratings
             console.log("iteratorFcn : "+data.id)
             var rates = 0;
-            cleanArray(ratings);
-            
+            //cleanArray(ratings);
+
 
             for(var i=0; i<ratings.length; i++){
                 if(ratings[i] != null)rates += parseInt(ratings[i]);
             }
             
-            var average = rates / ratings.length;
+            var average = Math.floor(rates / ratings.length);
             if(isNaN(average))average = 5;
 
             console.log("ratings : ",ratings);
