@@ -186,7 +186,15 @@ var ApiController = function(rapido) {
             if(isNaN(average))average = 5;
 
             var query = { _id: data.id };
-            var update = { $set: {'ratings': ratings, 'average': average} };
+            if(data.reports != ""){
+                var update = { 
+                    $set: {'ratings': ratings, 'average': average},
+                    $push: {'reports': data.reports}
+                };
+            }else{
+                var update = { $set: {'ratings': ratings, 'average': average} };
+            }
+            //var update = { $set: {'ratings': ratings, 'average': average} };
             
             Ass.findOneAndUpdate(query, update, {}, function (err, ass, raw) {
                 if (!err) {
