@@ -96,7 +96,7 @@ var ApiController = function(rapido) {
     this.router.post('/c', function(req, res){
         console.log("form create")
         //console.log(Ass)
-        console.log(req)
+        console.log(req.query.uuid)
         var formF = new formidable.IncomingForm({ uploadDir: path.dirname(__dirname) + '/tmp' });
         formF.parse(req, function(err, fields, files) {
             console.log(fields)
