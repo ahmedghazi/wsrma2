@@ -190,44 +190,66 @@ var ApiController = function(rapido) {
     this.router.post('/ub', function(req, res){
         var data = req.body;
         
-        batchUpdate(data, req, function(err, _data) {
-            if(err) {
-              // Handle the error
-              return;
-            }
-            console.log("done");
-            return res.json({'success':true, data:_data});
-            // Do something with honroStudents
-        });
+        var user = req.session.user;
+        console.log(user);
+        if(!user){
+            user = User.find(
+                { 'name': data.uuid }, 
+                function(err, user) {
+                    console.log(err);
+                    console.log(user);
+                    if (err) {
+                        console.log('Signup error');
+
+                        var email = req.body.uuid+"@rma.io";
+                        var user = new User({
+                            name: req.body.uuid, 
+                            email: email
+                        });
+
+                        user.save(function (err) {
+                            var user_exists = false;
+                            if (err) {
+                                if (err.code != 11000) {
+                                    return next(err);
+                                }else{
+                                    req.session.user = user;
+                                    batchUpdate(data, user, function(err, _data) {
+                                        if(err) {
+                                          return;
+                                        }
+                                        console.log("done");
+                                        return res.json({'success':true, data:_data});
+                                    });
+                                }
+                            }
+
+                    }else{
+                        batchUpdate(data, user, function(err, _data) {
+                            if(err) {
+                              return;
+                            }
+                            console.log("done");
+                            return res.json({'success':true, data:_data});
+                        });
+                    }
+                    req.session.user = user;
+            });
+        }
+
+        
 
         
     });
 
-    function batchUpdate(arr, req, callback) {
+    function batchUpdate(arr, user, callback) {
 
         var iteratorFcn = function(data, done) {
             var ratings = data.ratings
             //console.log("iteratorFcn : "+data.id)
             console.log(data)
-            console.log(req.session)
-
-            var user = req.session.user;
-            console.log(user);
-            if(!user){
-                user = User
-                        .find(
-                            { 'name': data.uuid }, 
-                            function(err, user) {
-                                console.log(err);
-                                console.log(user);
-                                if (err) {
-                                    console.log('Signup error');
-                                }
-                                req.session.user = user;
-                                
-
-                });
-            }
+            console.log(user)
+            
 
             var rates = 0;
 
