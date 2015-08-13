@@ -275,7 +275,7 @@ var ApiController = function(rapido) {
             if(data.reports != ""){
                 var update = { 
                     $set: {'ratings': ratings, 'average': average},
-                    $inc: {'reports': data.reports},
+                    $inc: {'reports': 1},
                     $push: {'raters': user._id}
                 };
             }else{
