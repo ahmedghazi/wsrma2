@@ -275,7 +275,7 @@ var ApiController = function(rapido) {
             if(data.reports != ""){
                 var update = { 
                     $set: {'ratings': ratings, 'average': average},
-                    $inc: {'reports': 1},
+                    //$inc: {'reports': 1},
                     $push: {'raters': user._id}
                 };
             }else{
@@ -337,6 +337,25 @@ var ApiController = function(rapido) {
     
     // DELETE ASS
     this.router.get('/d/:id', function(req, res, next){
+        return Ass.findById(req.params.id, function (err, ass) {
+            if (err) {
+                return next(err);
+            }
+            //console.log(story);
+            ass.remove(function (err) {
+                if (!err) {
+                    return console.log("deleted");
+                } else {
+                    return console.log(err);
+                }
+            });
+
+            res.json({'success':true, id:req.params.id});
+        });
+    });
+
+    // DELETE ASS
+    this.router.get('/flush', function(req, res, next){
         return Ass.findById(req.params.id, function (err, ass) {
             if (err) {
                 return next(err);
