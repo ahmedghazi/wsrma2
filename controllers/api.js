@@ -29,7 +29,7 @@ var ApiController = function(rapido) {
 
     // PAGINATION
     this.router.get('/page/:id', function(req, res){
-
+        req.session = "";
         var user = req.session.user;
         console.log(user);
         if(!user && req.query){
