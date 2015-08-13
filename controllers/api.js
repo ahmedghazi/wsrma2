@@ -81,7 +81,9 @@ var ApiController = function(rapido) {
                         var skip = parseInt(req.params.id * postsPerPage);
                         
                         return Ass
-                                .find( {raters: {$nin: [req.session.user._id] }})
+                                // VOTE UNIQUE
+                                //.find( {raters: {$nin: [req.session.user._id] }})
+                                .find()
                                 .sort({date_created: 'desc'})
                                 .limit(postsPerPage)
                                 .skip(skip)
@@ -100,7 +102,9 @@ var ApiController = function(rapido) {
             var skip = parseInt(req.params.id * postsPerPage);
             
             return Ass
-                    .find( {raters: {$nin: [req.session.user._id] }})
+                    // VOTE UNIQUE
+                    //.find( {raters: {$nin: [req.session.user._id] }})
+                    .find()
                     .sort({date_created: 'desc'})
                     .limit(postsPerPage)
                     .skip(skip)
@@ -162,13 +166,6 @@ var ApiController = function(rapido) {
             }
             
             return res.json(asses);
-        });
-    });
-
-    // GET FORM UPLOAD
-    this.router.get('/upload', function(req, res){
-        return res.render('upload', {
-            title: "UPLOAD"
         });
     });
     
@@ -272,7 +269,9 @@ var ApiController = function(rapido) {
             var average = Math.floor(rates / ratings.length);
             if(isNaN(average))average = 5;
 
-            var query = { _id: data.id, raters: { $nin: [ user._id ] } };
+            // VOTE UNIQUE
+            //var query = { _id: data.id, raters: { $nin: [ user._id ] } };
+            var query = { _id: data.id };
             if(data.reports != ""){
                 var update = { 
                     $set: {'ratings': ratings, 'average': average},
