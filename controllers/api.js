@@ -190,7 +190,7 @@ var ApiController = function(rapido) {
     this.router.post('/ub', function(req, res){
         var data = req.body;
         
-        batchUpdate(data, function(err, _data) {
+        batchUpdate(data, req, function(err, _data) {
             if(err) {
               // Handle the error
               return;
@@ -203,12 +203,13 @@ var ApiController = function(rapido) {
         
     });
 
-    function batchUpdate(arr, callback) {
+    function batchUpdate(arr, req, callback) {
 
         var iteratorFcn = function(data, done) {
             var ratings = data.ratings
             //console.log("iteratorFcn : "+data.id)
             console.log(data)
+            console.log(req.session)
 
             var user = req.session.user;
             console.log(user);
