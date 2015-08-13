@@ -223,6 +223,7 @@ var ApiController = function(rapido) {
                                     });
                                 }
                             }
+                        });
 
                     }else{
                         batchUpdate(data, user, function(err, _data) {
