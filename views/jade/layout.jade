@@ -13,7 +13,7 @@ prepend content
         nav.navbar.navbar-default.navbar-static-top
             div.container-fluid
                 div.navbar-header
-                    a.navbar-brand(href="/") #{rapidoSettings.name}
+                    a.navbar-brand(href="/") WSRMA
                 if !user
                     a.navbar-btn.btn.btn-primary.pull-right(href="/security/login") Login
                 else
@@ -24,6 +24,6 @@ block content
     div.container
         block header
             div.page-header
-                h1 WSRMA
+                h1 #{title}
 
         block page-content
