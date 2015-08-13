@@ -29,21 +29,93 @@ var ApiController = function(rapido) {
 
     // PAGINATION
     this.router.get('/page/:id', function(req, res){
-        var skip = parseInt(req.params.id * postsPerPage);
-        
-        return Ass
-                .find()
-                .sort({date_created: 'desc'})
-                .limit(postsPerPage)
-                .skip(skip)
-                .exec(function(err, asses) {
-            if (err) {
-                console.log(err);
-                return next(err);
-            }
+
+        var user = req.session.user;
+        console.log(user);
+        if(!user && req.query){
+            var email = req.query.uuid+"@rma.io";
+            user = User.find(
+                { 'email': email }, 
+                function(err, user) {
+                    
+                    if (err) {
+                        console.log(err);
+                        console.log('Signup error');
+
+                        var email = req.query.uuid+"@rma.io";
+                        var user = new User({
+                            name: req.query.uuid,
+                            email: email
+                        });
+
+                        user.save(function (err) {
+                            var user_exists = false;
+                            if (err) {
+                                if (err.code != 11000) {
+                                    return next(err);
+                                }else{
+                                    req.session.user = user;
+                                    console.log(user);
+                                    var skip = parseInt(req.params.id * postsPerPage);
+                                    
+                                    return Ass
+                                            .find()
+                                            .sort({date_created: 'desc'})
+                                            .limit(postsPerPage)
+                                            .skip(skip)
+                                            .exec(function(err, asses) {
+                                        if (err) {
+                                            console.log(err);
+                                            return next(err);
+                                        }
+                                        
+                                        return res.json(asses);
+                                    });
+
+                                }
+                            }
+                        });
+
+                    }else{
+                        console.log(user);
+                        req.session.user = user;
+                        var skip = parseInt(req.params.id * postsPerPage);
+                        
+                        return Ass
+                                .find()
+                                .sort({date_created: 'desc'})
+                                .limit(postsPerPage)
+                                .skip(skip)
+                                .exec(function(err, asses) {
+                            if (err) {
+                                console.log(err);
+                                return next(err);
+                            }
+                            
+                            return res.json(asses);
+                        });
+                    }
+                    
+            });
+        }else{
+            var skip = parseInt(req.params.id * postsPerPage);
             
-            return res.json(asses);
-        });
+            return Ass
+                    .find()
+                    .sort({date_created: 'desc'})
+                    .limit(postsPerPage)
+                    .skip(skip)
+                    .exec(function(err, asses) {
+                if (err) {
+                    console.log(err);
+                    return next(err);
+                }
+                
+                return res.json(asses);
+            });
+        }
+
+        
     });
     
     // GET TOP ASSES
@@ -143,7 +215,7 @@ var ApiController = function(rapido) {
 
                         var email = req.query.uuid+"@rma.io";
                         var user = new User({
-                            name: req.query.uuid, 
+                            name: req.query.uuid,
                             email: email
                         });
 
@@ -190,7 +262,7 @@ var ApiController = function(rapido) {
     this.router.post('/ub', function(req, res){
         var data = req.body;
         
-        var user = req.session.user;
+        /*var user = req.session.user;
         console.log(user);
         if(!user){
             user = User.find(
@@ -237,7 +309,14 @@ var ApiController = function(rapido) {
                     req.session.user = user;
             });
         }
-
+        */
+        batchUpdate(data, function(err, _data) {
+            if(err) {
+              return;
+            }
+            console.log("done");
+            return res.json({'success':true, data:_data});
+        });
         
 
         
