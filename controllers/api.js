@@ -213,45 +213,27 @@ var ApiController = function(rapido) {
                     fs.writeFile(newPath, data, function (err) {
                         console.log("writeFile end, imageName : "+imageName);
 
-                        var email = req.query.uuid+"@rma.io";
-                        var user = new User({
-                            name: req.query.uuid,
-                            email: email
+console.log(req.session.user)
+
+                        var ass = new Ass({
+                            img: imageName,
+                            ratings: [],
+                            average: 5,
+                            reports: [],
+                            user: req.session.user._id
                         });
 
-                        user.save(function (err) {
-                            var user_exists = false;
-                            if (err) {
-                                if (err.code != 11000) {
-                                    return next(err);
-                                }else{
-                                    user_exists = true;
-                                }
+                        ass.save(function (err) {
+                            if (!err) {
+                                return console.log("ass created");
+                                //return res.json(ass);
+                            } else {
+                                return console.log(err);
                             }
-
-                            req.session.user = user;
-
-                            var ass = new Ass({
-                                img: imageName,
-                                ratings: [],
-                                average: 5,
-                                reports: [],
-                                user: user._id
-                            });
-    //console.log(ass)
-                            ass.save(function (err) {
-                                if (!err) {
-                                    return console.log("ass created");
-                                    //return res.json(ass);
-                                } else {
-                                    return console.log(err);
-                                }
-                            });
-
-                            //return res.json(ass);
-                            return res.json({'success':true, ass:ass});
-
                         });
+
+                        //return res.json(ass);
+                        return res.json({'success':true, ass:ass});
                     });
                 }
             });
@@ -261,56 +243,9 @@ var ApiController = function(rapido) {
     // UPDATE BATCH
     this.router.post('/ub', function(req, res){
         var data = req.body;
+        var user = req.session.user;
         
-        /*var user = req.session.user;
-        console.log(user);
-        if(!user){
-            user = User.find(
-                { 'name': data.uuid }, 
-                function(err, user) {
-                    console.log(err);
-                    console.log(user);
-                    if (err) {
-                        console.log('Signup error');
-
-                        var email = req.body.uuid+"@rma.io";
-                        var user = new User({
-                            name: req.body.uuid, 
-                            email: email
-                        });
-
-                        user.save(function (err) {
-                            var user_exists = false;
-                            if (err) {
-                                if (err.code != 11000) {
-                                    return next(err);
-                                }else{
-                                    req.session.user = user;
-                                    batchUpdate(data, user, function(err, _data) {
-                                        if(err) {
-                                          return;
-                                        }
-                                        console.log("done");
-                                        return res.json({'success':true, data:_data});
-                                    });
-                                }
-                            }
-                        });
-
-                    }else{
-                        batchUpdate(data, user, function(err, _data) {
-                            if(err) {
-                              return;
-                            }
-                            console.log("done");
-                            return res.json({'success':true, data:_data});
-                        });
-                    }
-                    req.session.user = user;
-            });
-        }
-        */
-        batchUpdate(data, function(err, _data) {
+        batchUpdate(data, user, function(err, _data) {
             if(err) {
               return;
             }
