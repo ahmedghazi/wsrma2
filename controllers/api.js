@@ -210,14 +210,20 @@ var ApiController = function(rapido) {
             //console.log("iteratorFcn : "+data.id)
             console.log(data)
 
-            var user = req.session.user
+            var user = req.session.user;
+            console.log(user);
             if(!user){
                 user = User
                         .find(
                             { 'name': data.uuid }, 
                             function(err, user) {
-                                req.session.user = user;
+                                console.log(err);
                                 console.log(user);
+                                if (err) {
+                                    console.log('Signup error');
+                                }
+                                req.session.user = user;
+                                
 
                 });
             }
