@@ -82,7 +82,7 @@ var ApiController = function(rapido) {
                         var skip = parseInt(req.params.id * postsPerPage);
                         
                         return Ass
-                                .find(raters: { $nin: [ req.session.user._id ] })
+                                .find( {raters: {$nin: [req.session.user._id] }})
                                 .sort({date_created: 'desc'})
                                 .limit(postsPerPage)
                                 .skip(skip)
@@ -101,7 +101,7 @@ var ApiController = function(rapido) {
             var skip = parseInt(req.params.id * postsPerPage);
             
             return Ass
-                    .find(raters: { $nin: [ req.session.user._id ] })
+                    .find( {raters: {$nin: [req.session.user._id] }})
                     .sort({date_created: 'desc'})
                     .limit(postsPerPage)
                     .skip(skip)
