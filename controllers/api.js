@@ -7,6 +7,7 @@ var ApiController = function(rapido) {
     var async = require('async');
     var Ass = rapido.getModel('ass');
     var User = rapido.getModel('user');
+
 //console.log(Ass)
     var postsPerPage = 5;
 
@@ -15,7 +16,7 @@ var ApiController = function(rapido) {
         return Ass
                 .find()
                 .sort({date_created: 'desc'})
-                .limit(postsPerPage)
+                //.limit(postsPerPage)
                 .exec(function(err, asses) {
             if (err) {
                 console.log(err);
@@ -208,6 +209,19 @@ var ApiController = function(rapido) {
             var ratings = data.ratings
             //console.log("iteratorFcn : "+data.id)
             console.log(data)
+
+            var user = req.session.user
+            if(!user){
+                user = User
+                        .find(
+                            { 'name': data.uuid }, 
+                            function(err, user) {
+                                req.session.user = user;
+                                console.log(user);
+
+                });
+            }
+
             var rates = 0;
 
             for(var i=0; i<ratings.length; i++){
@@ -231,9 +245,6 @@ var ApiController = function(rapido) {
             Ass.findOneAndUpdate(query, update, {}, function (err, ass, raw) {
                 if (!err) {
                     console.log("updated")
-                    //console.log(ass)
-                    //console.log("updated : "+ass._id);
-                    //console.log("updated : "+ass.ratings);
                     done();
                     return;
                 } else {
