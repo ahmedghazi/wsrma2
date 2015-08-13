@@ -36,8 +36,7 @@ var ApiController = function(rapido) {
             var email = req.query.uuid+"@rma.io";
             user = User.find(
                 { 'email': email }, 
-                function(err, user) {
-                    
+                function(err, user) {  
                     if (err) {
                         console.log(err);
                         console.log('Signup error');

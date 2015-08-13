@@ -22,7 +22,7 @@ var DefaultController = function (rapido) {
                     }
                     
                     return res.render('index', {
-                        title: 'WSRMA',
+                        title: 'RATE MY ASS',
                         asses: asses
                     });
         });
