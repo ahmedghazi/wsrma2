@@ -5,10 +5,12 @@ block page-content
         each ass in asses
             article.ass(id='#{ass._id}')
                 p
-                    div.row
-                        div.col-md-4 #{ass.date_created}
-                        div.col-md-4 Average : #{ass.average}
-                        div.col-md-4 Reports : #{ass.reports}
-                    div.row
-                        div.col-md-6.col-md-offset-4
-                            img(src='uploads/#{ass.img}')
+                    p
+                        div.row
+                            div.col-md-4 #{ass.date_created}
+                            div.col-md-4 Average : #{ass.average}
+                            div.col-md-4 Reports : #{ass.reports}
+                    p
+                        div.row
+                            div.col-md-6.col-md-offset-4
+                                img(src='uploads/#{ass.img}')
