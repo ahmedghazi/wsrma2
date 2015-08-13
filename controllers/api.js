@@ -29,9 +29,9 @@ var ApiController = function(rapido) {
 
     // PAGINATION
     this.router.get('/page/:id', function(req, res){
-        req.session = "";
+        //req.session = "";
         var user = req.session.user;
-        console.log(user);
+        //console.log(user);
         if(!user && req.query){
             var email = req.query.uuid+"@rma.io";
             user = User.find(
@@ -55,7 +55,7 @@ var ApiController = function(rapido) {
                                     return next(err);
                                 }else{
                                     req.session.user = user;
-                                    console.log(user);
+                                    //console.log(user);
                                     var skip = parseInt(req.params.id * postsPerPage);
                                     
                                     return Ass
@@ -77,12 +77,12 @@ var ApiController = function(rapido) {
                         });
 
                     }else{
-                        console.log(user);
+                        //console.log(user);
                         req.session.user = user;
                         var skip = parseInt(req.params.id * postsPerPage);
                         
                         return Ass
-                                .find()
+                                .find(raters: { $nin: [ req.session.user._id ] })
                                 .sort({date_created: 'desc'})
                                 .limit(postsPerPage)
                                 .skip(skip)
@@ -101,7 +101,7 @@ var ApiController = function(rapido) {
             var skip = parseInt(req.params.id * postsPerPage);
             
             return Ass
-                    .find()
+                    .find(raters: { $nin: [ req.session.user._id ] })
                     .sort({date_created: 'desc'})
                     .limit(postsPerPage)
                     .skip(skip)
