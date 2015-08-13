@@ -213,7 +213,7 @@ var ApiController = function(rapido) {
                     fs.writeFile(newPath, data, function (err) {
                         console.log("writeFile end, imageName : "+imageName);
 
-console.log(req.session.user)
+
 
                         var ass = new Ass({
                             img: imageName,
@@ -244,7 +244,7 @@ console.log(req.session.user)
     this.router.post('/ub', function(req, res){
         var data = req.body;
         var user = req.session.user;
-        
+        console.log(data)
         batchUpdate(data, user, function(err, _data) {
             if(err) {
               return;
@@ -262,9 +262,7 @@ console.log(req.session.user)
         var iteratorFcn = function(data, done) {
             var ratings = data.ratings
             //console.log("iteratorFcn : "+data.id)
-            console.log(data)
-            console.log(user)
-            
+            //console.log(data)
 
             var rates = 0;
 
@@ -279,16 +277,20 @@ console.log(req.session.user)
             if(data.reports != ""){
                 var update = { 
                     $set: {'ratings': ratings, 'average': average},
-                    $push: {'reports': data.reports}
+                    $push: {'reports': data.reports, 'raters': user._id}
                 };
             }else{
-                var update = { $set: {'ratings': ratings, 'average': average} };
+                var update = { 
+                    $set: {'ratings': ratings, 'average': average},
+                    $push: {'raters': user._id}
+                };
             }
             //var update = { $set: {'ratings': ratings, 'average': average} };
             
             Ass.findOneAndUpdate(query, update, {}, function (err, ass, raw) {
                 if (!err) {
                     console.log("updated")
+                    console.log(ass)
                     done();
                     return;
                 } else {
