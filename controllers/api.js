@@ -215,7 +215,7 @@ var ApiController = function(rapido) {
                             img: imageName,
                             ratings: [],
                             average: 5,
-                            reports: [],
+                            reports: 0,
                             user: req.session.user._id
                         });
 
