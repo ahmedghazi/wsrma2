@@ -244,7 +244,7 @@ console.log(req.session.user[0])
     
     // UPDATE BATCH
     this.router.post('/ub', function(req, res){
-        console.dir(req.session)
+        console.log(req.session)
         var data = req.body;
         
         //console.log(data)
