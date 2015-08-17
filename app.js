@@ -15,6 +15,8 @@ var app = require('express')();
 var config = require('config');
 var rapido = new ExpresRapido(app, config);
 
+var path = require('path');
+
 rapido.log('----- Start Init ------');
 
 //load modules
@@ -34,6 +36,7 @@ rapido
         .getModule('server').oauth2Server.init();
 
 
+
 //magic register a controller 
 //register a route
 //attach the whole thing to the path
@@ -45,6 +48,8 @@ rapido.registerControllerAndAttachToRoute('security', '/security', __dirname + '
 //extra oauth2
 rapido.registerControllerAndAttachToRoute('oauth2', '/oauth2', __dirname + '/controllers/oauth2.js');
 
+var root = path.dirname(process.mainModule.filename);
+rapido.registerModel('ass', root+'/models/ass.js');
 
 //test socket io
 rapido.io.on('connection', function (socket) {

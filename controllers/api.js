@@ -221,6 +221,7 @@ console.log(req.session.user)
 
                         ass.save(function (err) {
                             if (!err) {
+                                console.log(ass);
                                 return console.log("ass created");
                                 //return res.json(ass);
                             } else {
