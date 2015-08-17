@@ -209,7 +209,7 @@ var ApiController = function(rapido) {
                     fs.writeFile(newPath, data, function (err) {
                         console.log("writeFile end, imageName : "+imageName);
 
-
+console.log(req.session.user)
 
                         var ass = new Ass({
                             img: imageName,
