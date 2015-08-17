@@ -8,6 +8,7 @@ var ApiController = function(rapido) {
     var Ass = rapido.getModel('ass');
     var User = rapido.getModel('user');
 
+console.log("in ApiController")
 console.log(Ass)
     var postsPerPage = 5;
 
