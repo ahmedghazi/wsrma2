@@ -240,10 +240,10 @@ console.log(req.session.user[0])
     
     // UPDATE BATCH
     this.router.post('/ub', function(req, res){
-        console.dir(req.session.user)
+        console.dir(req.session)
         var data = req.body;
         
-        console.log(data)
+        //console.log(data)
         batchUpdate(data, req.session.user, function(err, _data) {
             if(err) {
               return;
@@ -257,7 +257,7 @@ console.log(req.session.user[0])
     });
 
     function batchUpdate(arr, user, callback) {
-
+        console.dir(user)
         var iteratorFcn = function(data, done) {
             var ratings = data.ratings
             //console.log("iteratorFcn : "+data.id)
@@ -284,7 +284,7 @@ console.log(req.session.user[0])
             }else{
                 var update = { 
                     $set: {'ratings': ratings, 'average': average},
-                    $push: {'raters': user[0]._id}
+                    //$push: {'raters': user._id}
                 };
             }
             //var update = { $set: {'ratings': ratings, 'average': average} };
@@ -292,7 +292,7 @@ console.log(req.session.user[0])
             Ass.findOneAndUpdate(query, update, {}, function (err, ass, raw) {
                 if (!err) {
                     console.log("updated")
-                    console.log(ass)
+                    //console.log(ass)
                     done();
                     return;
                 } else {
