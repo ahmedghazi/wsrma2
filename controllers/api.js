@@ -9,7 +9,7 @@ var ApiController = function(rapido) {
     var User = rapido.getModel('user');
 
 console.log("in ApiController")
-console.log(Ass)
+console.log(User)
     var postsPerPage = 5;
 
     // GET LAST ASSES
@@ -31,55 +31,63 @@ console.log(Ass)
     // PAGINATION
     this.router.get('/page/:id', function(req, res){
         //req.session = "";
+        var skip = parseInt(req.params.id * postsPerPage);
+
         var user = req.session.user;
         console.log(user);
         if(!user && req.query){
+            console.log("!user && req.query");
             var email = req.query.uuid+"@rma.io";
             user = User.find(
                 { 'email': email },
                 function(err, user) {
-                    if (err) {
+                    
+                    if (err) {        
+                        //    return next(err)
                         console.log(err);
                         console.log('Signup error');
 
                         var email = req.query.uuid+"@rma.io";
+                        console.log(email)
                         var user = new User({
-                            name: req.query.uuid,
+                            //name: req.query.uuid,
                             email: email
                         });
-
+console.log(user)
                         user.save(function (err) {
-                            var user_exists = false;
+                            console.log("user.save")
+                            console.log(err)
                             if (err) {
-                                if (err.code != 11000) {
-                                    return next(err);
-                                }else{
-                                    req.session.user = user;
-                                    //console.log(user);
-                                    var skip = parseInt(req.params.id * postsPerPage);
-                                    
-                                    return Ass
-                                            .find()
-                                            .sort({date_created: 'desc'})
-                                            .limit(postsPerPage)
-                                            .skip(skip)
-                                            .exec(function(err, asses) {
-                                        if (err) {
-                                            console.log(err);
-                                            return next(err);
-                                        }
-                                        
-                                        return res.json(asses);
-                                    });
-
-                                }
+                                //return next(err);
+                                console.log(err)
                             }
+console.log(user)
+                            req.session.user = user;
+                            //console.log(user);
+                            
+                            
+                            return Ass
+                                    .find()
+                                    .sort({date_created: 'desc'})
+                                    .limit(postsPerPage)
+                                    .skip(skip)
+                                    .exec(function(err, asses) {
+                                if (err) {
+                                    console.log(err);
+                                    return next(err);
+                                }
+                                
+                                return res.json(asses);
+                            });
+
+                               
+                            
                         });
 
                     }else{
-                        //console.log(user);
+                        console.log("found user");
+                        console.log(user);
                         req.session.user = user;
-                        var skip = parseInt(req.params.id * postsPerPage);
                         
                         return Ass
                                 // VOTE UNIQUE
@@ -100,7 +108,6 @@ console.log(Ass)
                     
             });
         }else{
-            var skip = parseInt(req.params.id * postsPerPage);
             
             return Ass
                     // VOTE UNIQUE
@@ -358,13 +365,32 @@ console.log(req.session.user[0])
     });
 
     // DELETE ASS
-    this.router.get('/flush', function(req, res, next){
+    this.router.get('/flush:id', function(req, res, next){
         return Ass.findById(req.params.id, function (err, ass) {
             if (err) {
                 return next(err);
             }
             //console.log(story);
             ass.remove(function (err) {
+                if (!err) {
+                    return console.log("deleted");
+                } else {
+                    return console.log(err);
+                }
+            });
+
+            res.json({'success':true, id:req.params.id});
+        });
+    });
+
+    // DELETE ASS
+    this.router.get('/flush:id', function(req, res, next){
+        return User.findById(req.params.id, function (err, user) {
+            if (err) {
+                return next(err);
+            }
+            //console.log(story);
+            user.remove(function (err) {
                 if (!err) {
                     return console.log("deleted");
                 } else {
