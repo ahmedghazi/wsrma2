@@ -246,7 +246,7 @@ console.log(req.session.user[0])
     this.router.post('/ub', function(req, res){
         console.log(req.session)
         var data = req.body;
-        
+        if(!req.session.user)return console.log("no user in session")
         //console.log(data)
         batchUpdate(data, req.session.user, function(err, _data) {
             if(err) {
@@ -279,6 +279,7 @@ console.log(req.session.user[0])
             // VOTE UNIQUE
             //var query = { _id: data.id, raters: { $nin: [ user._id ] } };
             var query = { _id: data.id };
+
             if(data.reports != ""){
                 var update = { 
                     $set: {'ratings': ratings, 'average': average},
