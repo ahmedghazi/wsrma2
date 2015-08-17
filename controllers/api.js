@@ -40,11 +40,12 @@ console.log(User)
             var email = req.query.uuid+"@rma.io";
             user = User.find(
                 { 'email': email },
-                function(err, user) {
-                    
-                    if (err) {        
+                function(err, _user) {
+                    console.log(err)
+                    console.log(_user)
+                    if (err == null) {        
                         //    return next(err)
-                        console.log(err);
+                        console.log(_user);
                         console.log('Signup error');
 
                         var email = req.query.uuid+"@rma.io";
@@ -53,7 +54,7 @@ console.log(User)
                             //name: req.query.uuid,
                             email: email
                         });
-console.log(user)
+console.log("register user")
                         user.save(function (err) {
                             console.log("user.save")
                             console.log(err)
@@ -61,7 +62,7 @@ console.log(user)
                                 //return next(err);
                                 console.log(err)
                             }
-console.log(user)
+console.log("user enregistré")
                             req.session.user = user;
                             //console.log(user);
                             
