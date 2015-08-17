@@ -60,56 +60,42 @@ console.log(User)
                                 console.log(err)
                             }
 console.log("user saved")
-                            //req.session.user = user;
+                            req.session.user = user;
                             //console.log(user);
-                            req.logIn(user, function (err) {
-                                if(!err){
-                                    console.log("user logged in")
-                                    console.log(req.user)
-                                    return Ass
-                                            .find()
-                                            .sort({date_created: 'desc'})
-                                            .limit(postsPerPage)
-                                            .skip(skip)
-                                            .exec(function(err, asses) {
-                                        if (err) {
-                                            console.log(err);
-                                            return next(err);
-                                        }
-                                        
-                                        return res.json(asses);
-                                    });
-                                }else{
-                                    console.log("error login");
+                            return Ass
+                                    .find()
+                                    .sort({date_created: 'desc'})
+                                    .limit(postsPerPage)
+                                    .skip(skip)
+                                    .exec(function(err, asses) {
+                                if (err) {
+                                    console.log(err);
+                                    return next(err);
                                 }
-                            })
+                                
+                                return res.json(asses);
+                            });
                             
                             
                         });
                     }else{
                         console.log("user found");
                         console.log(user)
-                        req.logIn(user, function (err) {
-                            if(!err){
-                                console.log("user logged in")
-                                console.log(req.user)
-                                return Ass
-                                        .find()
-                                        .sort({date_created: 'desc'})
-                                        .limit(postsPerPage)
-                                        .skip(skip)
-                                        .exec(function(err, asses) {
-                                    if (err) {
-                                        console.log(err);
-                                        return next(err);
-                                    }
-                                    
-                                    return res.json(asses);
-                                });
-                            }else{
-                                console.log("error login");
+                        req.session.user = user;
+
+                        return Ass
+                                .find()
+                                .sort({date_created: 'desc'})
+                                .limit(postsPerPage)
+                                .skip(skip)
+                                .exec(function(err, asses) {
+                            if (err) {
+                                console.log(err);
+                                return next(err);
                             }
-                        })
+                            
+                            return res.json(asses);
+                        });
                     }
 
                     
@@ -225,7 +211,6 @@ console.log("user saved")
                     fs.writeFile(newPath, data, function (err) {
                         console.log("writeFile end, imageName : "+imageName);
 
-console.log(req.cookie.user)
 console.log(req.session.user)
 
                         var ass = new Ass({
