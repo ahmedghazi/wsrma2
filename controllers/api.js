@@ -61,44 +61,54 @@ console.log(User)
                                 console.log(err)
                             }
 console.log("user enregistré")
-                            req.session.user = user;
+                            //req.session.user = user;
                             //console.log(user);
-                            
-                            
-                            return Ass
-                                    .find()
-                                    .sort({date_created: 'desc'})
-                                    .limit(postsPerPage)
-                                    .skip(skip)
-                                    .exec(function(err, asses) {
-                                if (err) {
-                                    console.log(err);
-                                    return next(err);
+                            req.logIn(user, function (err) {
+                                if(!err){
+                                    console.log("user logged in")
+                                    return Ass
+                                            .find()
+                                            .sort({date_created: 'desc'})
+                                            .limit(postsPerPage)
+                                            .skip(skip)
+                                            .exec(function(err, asses) {
+                                        if (err) {
+                                            console.log(err);
+                                            return next(err);
+                                        }
+                                        
+                                        return res.json(asses);
+                                    });
+                                }else{
+                                    console.log("error login");
                                 }
-                                
-                                return res.json(asses);
-                            });
+                            })
+                            
+                            
                         });
                     }else{
                         console.log("user found");
-                        console.dir(req);
-                        req.session.user = user;
-                        console.log(req.session);
-                        return Ass
-                                // VOTE UNIQUE
-                                //.find( {raters: {$nin: [req.session.user._id] }})
-                                .find()
-                                .sort({date_created: 'desc'})
-                                .limit(postsPerPage)
-                                .skip(skip)
-                                .exec(function(err, asses) {
-                            if (err) {
-                                console.log(err);
-                                return next(err);
+                        
+                        req.logIn(user, function (err) {
+                            if(!err){
+                                console.log("user logged in")
+                                return Ass
+                                        .find()
+                                        .sort({date_created: 'desc'})
+                                        .limit(postsPerPage)
+                                        .skip(skip)
+                                        .exec(function(err, asses) {
+                                    if (err) {
+                                        console.log(err);
+                                        return next(err);
+                                    }
+                                    
+                                    return res.json(asses);
+                                });
+                            }else{
+                                console.log("error login");
                             }
-                            
-                            return res.json(asses);
-                        });
+                        })
                     }
 
                     
@@ -215,7 +225,7 @@ console.log("user enregistré")
                         console.log("writeFile end, imageName : "+imageName);
 
 console.log(req.cookie.user)
-console.log(req.session.user[0])
+console.log(req.session.user)
 
                         var ass = new Ass({
                             img: imageName,
@@ -246,7 +256,7 @@ console.log(req.session.user[0])
     // UPDATE BATCH
     this.router.post('/ub', function(req, res){
         console.log("/ub")
-        console.log(req.user)
+        console.log(req)
         
         var data = req.body;
         if(!req.session.user)return console.log("no user in session")
