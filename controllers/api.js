@@ -282,13 +282,13 @@ console.log(req.session.user)
             if(data.reports != ""){
                 var update = { 
                     $set: {'ratings': ratings, 'average': average},
-                    //$inc: {'reports': 1},
+                    $inc: {'reports': 1},
                     $push: {'raters': user._id}
                 };
             }else{
                 var update = { 
                     $set: {'ratings': ratings, 'average': average},
-                    //$push: {'raters': user._id}
+                    $push: {'raters': user._id}
                 };
             }
             //var update = { $set: {'ratings': ratings, 'average': average} };
