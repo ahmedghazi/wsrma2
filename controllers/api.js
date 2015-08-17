@@ -240,10 +240,11 @@ console.log(req.session.user[0])
     
     // UPDATE BATCH
     this.router.post('/ub', function(req, res){
+        console.dir(req.session.user)
         var data = req.body;
-        var user = req.session.user[0];
+        
         console.log(data)
-        batchUpdate(data, user, function(err, _data) {
+        batchUpdate(data, req.session.user, function(err, _data) {
             if(err) {
               return;
             }
@@ -283,7 +284,7 @@ console.log(req.session.user[0])
             }else{
                 var update = { 
                     $set: {'ratings': ratings, 'average': average},
-                    $push: {'raters': user._id}
+                    $push: {'raters': user[0]._id}
                 };
             }
             //var update = { $set: {'ratings': ratings, 'average': average} };
