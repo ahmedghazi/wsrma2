@@ -8,7 +8,7 @@ var ApiController = function(rapido) {
     var Ass = rapido.getModel('ass');
     var User = rapido.getModel('user');
 
-//console.log(Ass)
+console.log(Ass)
     var postsPerPage = 5;
 
     // GET LAST ASSES
