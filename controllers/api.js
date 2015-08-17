@@ -81,7 +81,7 @@ console.log("user enregistré")
                         });
                     }else{
                         console.log("user found");
-                        console.log(req.session);
+                        console.dir(req);
                         req.session.user = user;
                         console.log(req.session);
                         return Ass
