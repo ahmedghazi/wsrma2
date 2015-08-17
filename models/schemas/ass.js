@@ -17,8 +17,20 @@ var Ass = function (rapido) {
             index: true,
             type: Number,
             default: 5
+        },
+        reports: {
+            index: true,
+            type: Number
+        },
+        user: {
+            type: rapido.mongoose.Schema.Types.ObjectId,
+            ref: 'user'
+        },
+        raters: {
+            type: Array
         }
     });
     return schema;
 };
+
 module.exports = Ass;
