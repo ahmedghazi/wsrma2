@@ -210,14 +210,14 @@ console.log(Ass)
                     fs.writeFile(newPath, data, function (err) {
                         console.log("writeFile end, imageName : "+imageName);
 
-console.log(req.session.user)
+console.log(req.session.user[0])
 
                         var ass = new Ass({
                             img: imageName,
                             ratings: [],
                             average: 5,
                             reports: 0,
-                            user: req.session.user._id
+                            user: req.session.user[0]._id
                         });
 
                         ass.save(function (err) {
