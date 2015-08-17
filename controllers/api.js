@@ -214,6 +214,7 @@ console.log("user enregistré")
                     fs.writeFile(newPath, data, function (err) {
                         console.log("writeFile end, imageName : "+imageName);
 
+console.log(req.cookie.user)
 console.log(req.session.user[0])
 
                         var ass = new Ass({
@@ -244,7 +245,9 @@ console.log(req.session.user[0])
     
     // UPDATE BATCH
     this.router.post('/ub', function(req, res){
+        console.log("/ub")
         console.log(req.session)
+        console.log(req.cookie)
         var data = req.body;
         if(!req.session.user)return console.log("no user in session")
         //console.log(data)
