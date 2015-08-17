@@ -32,12 +32,12 @@ console.log(Ass)
     this.router.get('/page/:id', function(req, res){
         //req.session = "";
         var user = req.session.user;
-        //console.log(user);
+        console.log(user);
         if(!user && req.query){
             var email = req.query.uuid+"@rma.io";
             user = User.find(
-                { 'email': email }, 
-                function(err, user) {  
+                { 'email': email },
+                function(err, user) {
                     if (err) {
                         console.log(err);
                         console.log('Signup error');
