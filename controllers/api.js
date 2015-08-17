@@ -83,7 +83,7 @@ console.log("user enregistré")
                         console.log("user found");
                         console.log(user);
                         req.session.user = user;
-                        
+                        console.log(req.session.user);
                         return Ass
                                 // VOTE UNIQUE
                                 //.find( {raters: {$nin: [req.session.user._id] }})
