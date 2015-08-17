@@ -246,8 +246,8 @@ console.log(req.session.user[0])
     // UPDATE BATCH
     this.router.post('/ub', function(req, res){
         console.log("/ub")
-        console.log(req.session)
-        console.log(req.cookie)
+        console.log(req.user)
+        
         var data = req.body;
         if(!req.session.user)return console.log("no user in session")
         //console.log(data)
