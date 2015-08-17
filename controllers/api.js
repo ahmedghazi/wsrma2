@@ -36,7 +36,7 @@ console.log(User)
         var user = req.session.user;
         console.log(user);
         if(!user && req.query){
-            console.log("!user && req.query");
+            console.log("no user found");
             var email = req.query.uuid+"@rma.io";
             user = User.find(
                 { 'email': email },
@@ -54,18 +54,18 @@ console.log(User)
                         });
 
                         user.save(function (err) {
-                            console.log("user.save")
+                            //console.log("user.save")
                             console.log(err)
                             if (err) {
-                                //return next(err);
                                 console.log(err)
                             }
-console.log("user enregistré")
+console.log("user saved")
                             //req.session.user = user;
                             //console.log(user);
                             req.logIn(user, function (err) {
                                 if(!err){
                                     console.log("user logged in")
+                                    console.log(req.user)
                                     return Ass
                                             .find()
                                             .sort({date_created: 'desc'})
@@ -88,10 +88,11 @@ console.log("user enregistré")
                         });
                     }else{
                         console.log("user found");
-                        
+                        console.log(user)
                         req.logIn(user, function (err) {
                             if(!err){
                                 console.log("user logged in")
+                                console.log(req.user)
                                 return Ass
                                         .find()
                                         .sort({date_created: 'desc'})
@@ -256,7 +257,7 @@ console.log(req.session.user)
     // UPDATE BATCH
     this.router.post('/ub', function(req, res){
         console.log("/ub")
-        console.log(req)
+        console.log(req.user)
         
         var data = req.body;
         if(!req.session.user)return console.log("no user in session")
