@@ -46,7 +46,7 @@ console.log(User)
                     if (err == null) {        
                         //    return next(err)
                         console.log(_user);
-                        console.log('Signup error');
+                        console.log('user not found');
 
                         var email = req.query.uuid+"@rma.io";
                         console.log(email)
@@ -86,7 +86,7 @@ console.log("user enregistré")
                         });
 
                     }else{
-                        console.log("found user");
+                        console.log("user found");
                         console.log(user);
                         req.session.user = user;
                         
@@ -109,7 +109,7 @@ console.log("user enregistré")
                     
             });
         }else{
-            
+            console.log("returning user");
             return Ass
                     // VOTE UNIQUE
                     //.find( {raters: {$nin: [req.session.user._id] }})
