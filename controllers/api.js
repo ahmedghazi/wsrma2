@@ -40,21 +40,19 @@ console.log(User)
             var email = req.query.uuid+"@rma.io";
             user = User.find(
                 { 'email': email },
-                function(err, _user) {
-                    console.log(err)
-                    console.log(_user)
-                    if (err == null) {        
-                        //    return next(err)
-                        console.log(_user);
+                function(err, user) {
+                    if (err) {
                         console.log('user not found');
+                    }
 
+                    if(user.length == 0){
+                        console.log("create user "+req.query.uuid+"@rma.io")
                         var email = req.query.uuid+"@rma.io";
-                        console.log(email)
+                        
                         var user = new User({
-                            //name: req.query.uuid,
                             email: email
                         });
-console.log("register user")
+
                         user.save(function (err) {
                             console.log("user.save")
                             console.log(err)
@@ -80,11 +78,7 @@ console.log("user enregistré")
                                 
                                 return res.json(asses);
                             });
-
-                               
-                            
                         });
-
                     }else{
                         console.log("user found");
                         console.log(user);
@@ -106,6 +100,8 @@ console.log("user enregistré")
                             return res.json(asses);
                         });
                     }
+
+                    
                     
             });
         }else{
