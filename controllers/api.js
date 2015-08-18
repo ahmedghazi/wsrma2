@@ -426,6 +426,74 @@ console.log(req.session.user)
         });
     });
 
+    this.router.get('/routine', function (req, res) {
+        //session storage exemple
+        return res.render('routine', {
+            title: 'RATE MY ASS'
+        });
+    });
+
+
+    // DELETE ASS
+    this.router.post('/routine', function(req, res, next){
+        var formF = new formidable.IncomingForm({ uploadDir: path.dirname(__dirname) + '/tmp' });
+            formF.parse(req, function(err, fields, files) {
+                req.uploadFiles = files;
+                req.fields = fields;
+                console.log(files)
+            });
+
+            formF.on('progress', function(bytesReceived, bytesExpected) {
+                var percent_complete = (bytesReceived / bytesExpected) * 100;
+                console.log(percent_complete.toFixed(2));
+            });
+
+            formF.on('end', function (fields, files) {
+                //console.log(req.uploadFiles)
+console.log(req.uploadFiles)
+                fs.readFile(req.uploadFiles.file.path, function (err, data) {
+                    var imageName = req.uploadFiles.file.name;
+
+                    /// If there's an error
+                    if(!imageName){
+                        console.log("There was an error");
+                        res.redirect("/");
+                        res.end();
+
+                    } else {
+                        var newPath = path.dirname(__dirname) + "/public/uploads/" + imageName;
+                         /// write file to uploads/fullsize folder
+                        fs.writeFile(newPath, data, function (err) {
+                            console.log("writeFile end, imageName : "+imageName);
+
+
+
+                            var ass = new Ass({
+                                img: imageName,
+                                ratings: [],
+                                average: 5,
+                                reports: 0,
+                                //user: 0
+                            });
+
+                            ass.save(function (err) {
+                                if (!err) {
+                                    console.log(ass);
+                                    return console.log("ass created");
+                                    //return res.json(ass);
+                                } else {
+                                    return console.log(err);
+                                }
+                            });
+
+                            //return res.json(ass);
+                            return res.json({'success':true, ass:ass});
+                        });
+                    }
+                });
+            });
+    });
+
 
     return this;
 };
