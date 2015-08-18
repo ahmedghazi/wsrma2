@@ -38,6 +38,7 @@ console.log(User)
         if(!user && req.query){
             console.log("no user found");
             var email = req.query.uuid+"@rma.io";
+            if(req.query.uuid == undefined)email = "55d1b1e2f3ed9d2e28bc7614@rma.io"
             user = User.find(
                 { 'email': email },
                 function(err, user) {
@@ -157,24 +158,10 @@ console.log("user saved")
         });
     });
 
-    // GET TOP ASSES
-    this.router.get('/my', function(req, res){
-        return Ass
-                .find()
-                .sort({average: 'desc'})
-                //.limit(postsPerPage)
-                .exec(function(err, asses) {
-            if (err) {
-                console.log(err);
-                return next(err);
-            }
-            
-            return res.json(asses);
-        });
-    });
-
+    
     // GET TOP ASSES PAGINATION
     this.router.get('/my/page/:id', function(req, res){
+        //console.log(req.session.user)
         if(req.session.user._id){
             console.log(req.session.user)
             var skip = parseInt(req.params.id * postsPerPage);
