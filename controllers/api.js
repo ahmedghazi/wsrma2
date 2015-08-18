@@ -128,7 +128,7 @@ console.log("user saved")
         return Ass
                 .find()
                 .sort({average: 'desc'})
-                .limit(postsPerPage)
+                //.limit(postsPerPage)
                 .exec(function(err, asses) {
             if (err) {
                 console.log(err);
@@ -155,6 +155,45 @@ console.log("user saved")
             
             return res.json(asses);
         });
+    });
+
+    // GET TOP ASSES
+    this.router.get('/my', function(req, res){
+        return Ass
+                .find()
+                .sort({average: 'desc'})
+                //.limit(postsPerPage)
+                .exec(function(err, asses) {
+            if (err) {
+                console.log(err);
+                return next(err);
+            }
+            
+            return res.json(asses);
+        });
+    });
+
+    // GET TOP ASSES PAGINATION
+    this.router.get('/my/page/:id', function(req, res){
+        if(req.session.user._id){
+            var skip = parseInt(req.params.id * postsPerPage);
+            return Ass
+                    .find({'user':req.session.user._id})
+                    .sort({average: 'desc'})
+                    .limit(postsPerPage)
+                    .skip(skip)
+                    .exec(function(err, asses) {
+                if (err) {
+                    console.log(err);
+                    return next(err);
+                }
+                
+                return res.json(asses);
+            });
+        }else{
+
+        }
+        
     });
 
     // GET TOP ASSES PAGINATION
