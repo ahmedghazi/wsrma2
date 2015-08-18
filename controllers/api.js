@@ -218,7 +218,7 @@ console.log(req.session.user)
                             ratings: [],
                             average: 5,
                             reports: 0,
-                            user: req.session.user[0]._id
+                            user: req.session.user._id
                         });
 
                         ass.save(function (err) {
