@@ -176,6 +176,7 @@ console.log("user saved")
     // GET TOP ASSES PAGINATION
     this.router.get('/my/page/:id', function(req, res){
         if(req.session.user._id){
+            console.log(req.session.user)
             var skip = parseInt(req.params.id * postsPerPage);
             return Ass
                     .find({'user':req.session.user._id})
@@ -191,7 +192,7 @@ console.log("user saved")
                 return res.json(asses);
             });
         }else{
-
+            return res.json({msg:"no ass found"});
         }
         
     });
