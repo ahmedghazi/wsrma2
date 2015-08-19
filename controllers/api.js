@@ -166,9 +166,12 @@ console.log("user saved")
     this.router.get('/my/page/:id', function(req, res){
         console.log(req.session.user)
         var userID = 0;
-        if(typeof req.session.user == Array)userID = req.session.user[0]._id
-        else userID = req.session.user._id
-console.log(userID)
+        if(typeof req.session.user == Array)
+            userID = req.session.user[0]._id;
+        else 
+            userID = req.session.user._id;
+console.log(userID);
+
         if(userID){
             console.log(userID)
             //var skip = parseInt(req.params.id * postsPerPage);
