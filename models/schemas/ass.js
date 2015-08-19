@@ -22,6 +22,14 @@ var Ass = function (rapido) {
             index: true,
             type: Number
         },
+        latitude: {
+            type: Number,
+            default: 0
+        },
+        longitude: {
+            type: Number,
+            default: 0
+        },
         user: {
             type: rapido.mongoose.Schema.Types.ObjectId,
             ref: 'user'
