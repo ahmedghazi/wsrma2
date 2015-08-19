@@ -165,7 +165,7 @@ console.log("user saved")
     // GET TOP ASSES PAGINATION
     this.router.get('/my/page/:id', function(req, res){
         console.log(req.session.user)
-        var userID = 0;
+        var userID = "";
         if(typeof req.session.user == Array)
             userID = req.session.user[0]._id;
         else 
