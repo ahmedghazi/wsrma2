@@ -209,12 +209,13 @@ console.log("user saved")
 
     this.router.post('/c', function(req, res){
         console.log("form create")
-        console.log(req)
+        //console.log(req)
+        console.log(req.route.stack)
         
         var formF = new formidable.IncomingForm({ uploadDir: path.dirname(__dirname) + '/tmp' });
         formF.parse(req, function(err, fields, files) {
-            console.log(req.body)
-            console.log(req.params)
+            console.log(fields.UDID)
+            console.log(fields.latitude)
             req.uploadFiles = files;
             req.fields = fields;
         });
@@ -225,9 +226,6 @@ console.log("user saved")
         });
 
         formF.on('end', function (fields, files) {
-            console.log(fields)
-            console.log(files)
-
             fs.readFile(req.uploadFiles.file.path, function (err, data) {
                 var imageName = req.uploadFiles.file.name;
 
