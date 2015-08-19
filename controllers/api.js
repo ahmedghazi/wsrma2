@@ -164,12 +164,16 @@ console.log("user saved")
     
     // GET TOP ASSES PAGINATION
     this.router.get('/my/page/:id', function(req, res){
-        //console.log(req.session.user)
-        if(req.session.user._id){
-            console.log(req.session.user)
+        console.log(req.session.user)
+        var userID = 0;
+        if(typeof req.session.user == Array)userID = req.session.user[0]._id
+        else userID = req.session.user._id
+
+        if(userID){
+            console.log(userID)
             var skip = parseInt(req.params.id * postsPerPage);
             return Ass
-                    .find({'user':req.session.user._id})
+                    .find({'user':userID})
                     .sort({average: 'desc'})
                     .limit(postsPerPage)
                     .skip(skip)
