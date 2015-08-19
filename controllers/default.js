@@ -49,6 +49,24 @@ var DefaultController = function (rapido) {
         });
     });
 
+    this.router.get('/user/:id', function(req, res){
+        return Ass
+                .find({'user':req.params.id})
+                .sort({date_created: 'desc'})
+                //.limit(postsPerPage)
+                .exec(function(err, asses) {
+                    if (err) {
+                        console.log(err);
+                        return next(err);
+                    }
+                    
+                    return res.render('index', {
+                        title: 'RATE MY ASS',
+                        asses: asses
+                    });
+        });
+    });
+
     return this;
 };
 
