@@ -211,13 +211,17 @@ console.log("user saved")
         console.log("form create")
         //console.log(req)
         //console.log(req.route.stack)
-        
+        var Latitude,Longitude;
+
         var formF = new formidable.IncomingForm({ uploadDir: path.dirname(__dirname) + '/tmp' });
         formF.parse(req, function(err, fields, files) {
             console.log(fields.UUID)
-            console.log(fields.latitude)
+            
             req.uploadFiles = files;
             req.fields = fields;
+
+            Latitude = fields.latitude;
+            Longitude = fields.longitude;
         });
 
         formF.on('progress', function(bytesReceived, bytesExpected) {
@@ -243,15 +247,18 @@ console.log("user saved")
 
 //console.log(req.session.user)
 var userID = req.session.user[0]._id || req.session.user._id;
-
+console.log(req.fields.latitude)
+console.log(req.fields.longitude)
+console.log(Latitude)
+console.log(Longitude)
                         var ass = new Ass({
                             img: imageName,
                             ratings: [],
                             average: 5,
                             reports: 0,
                             user: userID,
-                            latitude: fields.latitude,
-                            longitude: fields.longitude
+                            latitude: req.fields.latitude,
+                            longitude: req.fields.longitude
                         });
 
                         ass.save(function (err) {
