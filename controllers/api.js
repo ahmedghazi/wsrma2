@@ -167,7 +167,7 @@ console.log("user saved")
         console.log("======================= my")
         console.log(typeof req.session.user)
         var userID = "";
-        if(typeof req.session.user == Array)
+        if(typeof req.session.user === 'object')
             userID = req.session.user[0]._id;
         else 
             userID = req.session.user._id;
