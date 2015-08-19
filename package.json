@@ -7,12 +7,12 @@
     "startProd": "forever start ./app.js"
   },
   "dependencies": {
-    "express-rapido": "git://github.com/AHWEBDEV/ExpressRapido.git#master",
     "express": "~4.11.0",
     "jade": "~1.9.1",
     "express-flash": "0.0.2",
     "config": "~1.10.0",
-    "formidable": "~1.0.17"
+    "formidable": "~1.0.17",
+    "cheerio": "~0.19.0"
   },
   "devDependencies": {}
 }

@@ -2,6 +2,8 @@ var ApiController = function(rapido) {
     var express = require('express');
     this.router = express.Router();
     var fs = require('fs');
+    var http = require('http');
+    var cheerio = require('cheerio');
     var formidable = require('formidable');
     var path = require('path');
     var async = require('async');
@@ -9,7 +11,7 @@ var ApiController = function(rapido) {
     var User = rapido.getModel('user');
 
 console.log("in ApiController")
-console.log(User)
+
     var postsPerPage = 5;
 
     // GET LAST ASSES
@@ -211,6 +213,8 @@ console.log("user saved")
         
         var formF = new formidable.IncomingForm({ uploadDir: path.dirname(__dirname) + '/tmp' });
         formF.parse(req, function(err, fields, files) {
+            console.log(req.body)
+            console.log(req.params)
             req.uploadFiles = files;
             req.fields = fields;
         });
@@ -221,7 +225,8 @@ console.log("user saved")
         });
 
         formF.on('end', function (fields, files) {
-            //console.log(req.uploadFiles)
+            console.log(fields)
+            console.log(files)
 
             fs.readFile(req.uploadFiles.file.path, function (err, data) {
                 var imageName = req.uploadFiles.file.name;
@@ -424,6 +429,68 @@ console.log(req.session.user)
 
             res.json({'success':true, id:req.params.id});
         });
+    });
+
+    this.router.get('/bot', function (req, response) {
+        //session storage exemple
+        var images = [];
+        var response_text = "";
+        var options = {
+                host: 'les400culs.com'
+              , port: 80
+              , path: '/'
+              , method: 'GET'
+            };
+
+        var request = http.get(options, function(res){
+            if(res.statusCode != 200) {
+                  throw "Error: " + res.statusCode; 
+                };
+            res.setEncoding("utf8");
+            res.on("data", function (chunk) {
+                response_text += chunk;
+            });
+            res.on("end", function() {
+                $ = cheerio.load(response_text);
+                $("img").each(function(idx, img) {
+                    //console.log(img.attribs.src);
+/*
+                    fs.readFile(img.attribs.src, function (err, data) {
+                        var imageName = img.attribs.src;
+                        console.log(err)
+
+                        fs.writeFile(newPath, data, function (err) {
+                            console.log("writeFile end, imageName : "+imageName);
+
+                            var ass = new Ass({
+                                img: imageName,
+                                ratings: [],
+                                average: 5,
+                                reports: 0,
+                                //user: 0
+                            });
+
+                            ass.save(function (err) {
+                                if (!err) {
+                                    console.log(ass);
+                                    return console.log("ass created");
+                                    //return res.json(ass);
+                                } else {
+                                    return console.log(err);
+                                }
+                            });
+
+                            //return res.json(ass);
+                            return res.json({'success':true, ass:ass});
+                        });
+                       
+                    });
+ */
+                });
+       
+            })
+
+        })
     });
 
     this.router.get('/routine', function (req, res) {
