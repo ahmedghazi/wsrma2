@@ -209,7 +209,7 @@ console.log("user saved")
 
     this.router.post('/c', function(req, res){
         console.log("form create")
-        //console.log(Ass)
+        console.log(req)
         
         var formF = new formidable.IncomingForm({ uploadDir: path.dirname(__dirname) + '/tmp' });
         formF.parse(req, function(err, fields, files) {
@@ -244,13 +244,14 @@ console.log("user saved")
                         console.log("writeFile end, imageName : "+imageName);
 
 console.log(req.session.user)
+var userID = req.session.user[0]._id || req.session.user._id;
 
                         var ass = new Ass({
                             img: imageName,
                             ratings: [],
                             average: 5,
                             reports: 0,
-                            user: req.session.user._id
+                            user: userID
                         });
 
                         ass.save(function (err) {
