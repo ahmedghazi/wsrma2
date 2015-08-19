@@ -168,15 +168,15 @@ console.log("user saved")
         var userID = 0;
         if(typeof req.session.user == Array)userID = req.session.user[0]._id
         else userID = req.session.user._id
-
+console.log(userID)
         if(userID){
             console.log(userID)
-            var skip = parseInt(req.params.id * postsPerPage);
+            //var skip = parseInt(req.params.id * postsPerPage);
             return Ass
                     .find({'user':userID})
                     .sort({average: 'desc'})
-                    .limit(postsPerPage)
-                    .skip(skip)
+                    //.limit(postsPerPage)
+                    //.skip(skip)
                     .exec(function(err, asses) {
                 if (err) {
                     console.log(err);
