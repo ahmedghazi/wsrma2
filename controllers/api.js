@@ -411,7 +411,9 @@ else userID = req.session.user._id
                 }
             });
 
-            res.json({'success':true, id:req.params.id});
+            res.redirect("/");
+            res.end();
+//            res.json({'success':true, id:req.params.id});
         });
     });
 
