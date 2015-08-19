@@ -108,8 +108,8 @@ console.log("user saved")
             console.log("returning user");
             return Ass
                     // VOTE UNIQUE
-                    //.find( {raters: {$nin: [req.session.user._id] }})
-                    .find()
+                    .find( {raters: {$nin: [req.session.user._id] }})
+                    //.find()
                     .sort({date_created: 'desc'})
                     .limit(postsPerPage)
                     .skip(skip)
@@ -129,7 +129,8 @@ console.log("user saved")
     // GET TOP ASSES
     this.router.get('/top', function(req, res){
         return Ass
-                .find()
+                .find( {raters: {$nin: [req.session.user._id] }})
+                //.find()
                 .sort({average: 'desc'})
                 //.limit(postsPerPage)
                 .exec(function(err, asses) {
@@ -321,8 +322,8 @@ else userID = req.session.user._id
             if(isNaN(average))average = 5;
 
             // VOTE UNIQUE
-            //var query = { _id: data.id, raters: { $nin: [ user._id ] } };
-            var query = { _id: data.id };
+            var query = { _id: data.id, raters: { $nin: [ user._id ] } };
+            //var query = { _id: data.id };
 
             if(data.reports != ""){
                 var update = { 
