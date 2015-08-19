@@ -246,11 +246,16 @@ console.log("user saved")
                         console.log("writeFile end, imageName : "+imageName);
 
 //console.log(req.session.user)
-var userID = req.session.user[0]._id || req.session.user._id;
+
 console.log(req.fields.latitude)
 console.log(req.fields.longitude)
 console.log(Latitude)
 console.log(Longitude)
+
+var userID = 0;
+if(typeof req.session.user == Array)userID = req.session.user[0]._id
+else userID = req.session.user._id
+             
                         var ass = new Ass({
                             img: imageName,
                             ratings: [],
