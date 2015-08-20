@@ -195,17 +195,17 @@ console.log("user saved")
             console.log("userID : "+userID);
             //var skip = parseInt(req.params.id * postsPerPage);
             return Ass
-                    .find({user:userID})
+                    .find({'user':userID})
                     .sort({average: 'desc'})
                     //.limit(postsPerPage)
                     //.skip(skip)
                     .exec(function(err, asses) {
-                if (err) {
-                    console.log(err);
-                    return next(err);
-                }
-                
-                return res.json(asses);
+                        if (err) {
+                            console.log(err);
+                            return next(err);
+                        }
+                        
+                        return res.json(asses);
             });
         }else{
             return res.json({msg:"no ass found"});
