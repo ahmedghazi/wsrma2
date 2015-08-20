@@ -195,7 +195,7 @@ console.log("user saved")
             console.log("userID : "+userID);
             //var skip = parseInt(req.params.id * postsPerPage);
             return Ass
-                    .find({'user':userID})
+                    .find({'user._id':userID})
                     .sort({average: 'desc'})
                     //.limit(postsPerPage)
                     //.skip(skip)
