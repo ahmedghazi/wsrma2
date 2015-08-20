@@ -38,9 +38,9 @@ console.log("in ApiController")
         var user = req.session.user;
         console.log(user);
         if(!user && req.query){
-            console.log("no user found");
+            console.log("no user in session");
             var email = req.query.uuid+"@rma.io";
-            if(req.query.uuid == undefined)email = "55d1b1e2f3ed9d2e28bc7614@rma.io"
+            //if(req.query.uuid == undefined)email = "55d1b1e2f3ed9d2e28bc7614@rma.io"
             user = User.find(
                 { 'email': email },
                 function(err, user) {
@@ -161,6 +161,24 @@ console.log("user saved")
         });
     });
 
+    // GET TOP ASSES PAGINATION
+    this.router.get('/notop/page/:id', function(req, res){
+        var skip = parseInt(req.params.id * postsPerPage);
+        return Ass
+                .find()
+                .sort({average: 'asc'})
+                .limit(postsPerPage)
+                .skip(skip)
+                .exec(function(err, asses) {
+            if (err) {
+                console.log(err);
+                return next(err);
+            }
+            
+            return res.json(asses);
+        });
+    });
+
     
     // GET TOP ASSES PAGINATION
     this.router.get('/my/page/:id', function(req, res){
@@ -177,7 +195,7 @@ console.log("userID : "+userID);
             console.log(userID)
             //var skip = parseInt(req.params.id * postsPerPage);
             return Ass
-                    .find({'user':userID})
+                    .find({'user.email':userID+"@rma.io"})
                     .sort({average: 'desc'})
                     //.limit(postsPerPage)
                     //.skip(skip)
@@ -296,7 +314,6 @@ else userID = req.session.user._id
     // UPDATE BATCH
     this.router.post('/ub', function(req, res){
         console.log("/ub")
-        console.log(req.user)
         
         var data = req.body;
         if(!req.session.user)return console.log("no user in session")
