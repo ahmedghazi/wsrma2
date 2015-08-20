@@ -197,6 +197,7 @@ console.log("user saved")
             return Ass
                     .find({'user._id':userID})
                     .sort({average: 'desc'})
+                    .populate('user')
                     //.limit(postsPerPage)
                     //.skip(skip)
                     .exec(function(err, asses) {
