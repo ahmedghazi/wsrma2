@@ -280,9 +280,11 @@ console.log(req.fields.longitude)
 console.log(Latitude)
 console.log(Longitude)
 
-var userID = 0;
-if(typeof req.session.user == Array)userID = req.session.user[0]._id
-else userID = req.session.user._id
+var userID = "";
+if(typeof req.session.user === 'object')
+    userID = req.session.user[0]._id;
+else 
+    userID = req.session.user._id;
              
                         var ass = new Ass({
                             img: imageName,
