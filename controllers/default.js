@@ -59,7 +59,7 @@ var DefaultController = function (rapido) {
                         console.log(err);
                         return next(err);
                     }
-                    
+                    console.log(asses)
                     return res.render('index', {
                         title: 'RATE MY ASS',
                         asses: asses
