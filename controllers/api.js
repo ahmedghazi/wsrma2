@@ -189,14 +189,13 @@ console.log("user saved")
             userID = req.session.user[0]._id;
         else 
             userID = req.session.user._id;
-console.log("userID : "+userID);
+
 
         if(userID){
-            var userEmail = userID+"@rma.io";
-            console.log(userID)
+            console.log("userID : "+userID);
             //var skip = parseInt(req.params.id * postsPerPage);
             return Ass
-                    .find({'user.email':userEmail})
+                    .find({user:userID})
                     .sort({average: 'desc'})
                     //.limit(postsPerPage)
                     //.skip(skip)
